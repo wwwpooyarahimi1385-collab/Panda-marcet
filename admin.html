@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="fa">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panda Hub | فرماندهی شبکه و سرورها (پنل مدیریت ارشد)</title>
+  <meta name="description" content="مرکز کنترل و مانیتورینگ سرورها، تایید تراکنش‌های کارت به کارت، صدور آنی کانفیگ‌های Xray و تنظیمات درگاه"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#080b11",
+            surface: "#10131a",
+            "surface-dim": "#10131a",
+            "surface-container-lowest": "#06080d",
+            "surface-container-low": "#0f131c",
+            "surface-container": "#151b27",
+            "surface-container-high": "#1e2636",
+            "surface-container-highest": "#283246",
+            primary: "#f4fff3",
+            "on-primary": "#00391f",
+            "primary-container": "#00ff9d",
+            "on-primary-container": "#007143",
+            "primary-fixed": "#56ffa8",
+            "primary-fixed-dim": "#00e38b",
+            secondary: "#bdf4ff",
+            "secondary-container": "#00e3fd",
+            "on-secondary-container": "#00616d",
+            "secondary-fixed": "#9cf0ff",
+            "on-surface": "#e0e2eb",
+            "on-surface-variant": "#94a3b8",
+            error: "#ff5370",
+            "error-container": "#93000a",
+          },
+          fontFamily: {
+            sans: ["Vazirmatn", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            headline: ["Space Grotesk", "Vazirmatn", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body class="bg-[#080b11] text-on-surface font-sans antialiased selection:bg-primary-container selection:text-on-primary">
+
+  <!-- ADMIN TOP COCKPIT HEADER -->
+  <header class="bg-[#06080d] border-b border-white/5 sticky top-0 z-50">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-primary-container/15 text-primary-container flex items-center justify-center border border-primary-container/30">
+            <span class="material-symbols-outlined text-[22px]">terminal</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-headline font-bold text-lg text-white">Panda Hub</span>
+              <span class="text-xs text-primary-fixed font-mono font-bold">فرماندهی شبکه و سرورها</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-[11px] text-[#00ff9d] font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#00ff9d] animate-pulse"></span>
+              <span>وضعیت شبکه: بدون اختلال</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Root User Credentials -->
+        <div class="hidden lg:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-surface-container border border-white/5 font-mono text-xs">
+          <div class="w-2 h-2 rounded-full bg-primary-container"></div>
+          <span class="text-white font-bold">Pory_3x</span>
+          <span class="px-1.5 py-0.5 rounded bg-primary-container/20 text-primary-fixed text-[10px] font-bold">LEVEL-9 ROOT سوپر ادمین</span>
+          <span class="text-on-surface-variant text-[11px]">| آخرین احراز هویت: پروتکل دو مرحله‌ای سخت‌افزاری فعال</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-2">
+        <button onclick="syncXrayClusters(this)" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-white text-xs font-mono border border-white/5 transition-all">
+          <span class="material-symbols-outlined text-[16px] text-primary-fixed" id="syncXrayIcon">sync</span>
+          <span>همگام‌سازی نودها</span>
+        </button>
+
+        <a href="servers.html" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-secondary text-xs font-mono border border-white/5 transition-all">
+          <span class="material-symbols-outlined text-[16px]">dns</span>
+          <span>کلاسترهای Xray</span>
+        </a>
+
+        <a href="index.html" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs shadow-md transition-all">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+          <span>بازگشت به سایت</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Subnav Tabs Strip -->
+    <div class="bg-[#0b0e14] border-t border-white/5 px-4 md:px-8">
+      <div class="max-w-[1600px] mx-auto flex items-center gap-2 overflow-x-auto py-2 text-xs font-mono">
+        <button class="px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary-container font-bold flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">dashboard</span>
+          <span>داشبورد اصلی</span>
+        </button>
+        <button class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">shopping_cart_checkout</span>
+          <span>مدیریت سفارش‌ها</span>
+          <span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold">۲</span>
+        </button>
+        <button class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">inventory_2</span>
+          <span>محصولات و پلن‌ها</span>
+        </button>
+        <button class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">group</span>
+          <span>کاربران</span>
+        </button>
+        <button class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">sell</span>
+          <span>کدهای تخفیف</span>
+        </button>
+        <button class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">support_agent</span>
+          <span>تیکت‌ها</span>
+          <span class="px-1.5 py-0.2 rounded-full bg-error-container text-white text-[10px] font-bold">۲</span>
+        </button>
+        <button onclick="scrollToCardSettings()" class="px-3.5 py-1.5 rounded-lg text-[#00daf3] hover:bg-[#00daf3]/10 flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">credit_card</span>
+          <span>تنظیمات سایت و شماره کارت</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ADMIN CONTENT -->
+  <main class="max-w-[1600px] mx-auto px-4 md:px-8 py-8 flex flex-col gap-8">
+    
+    <!-- 4 TELEMETRY COUNTER TILES -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Metric 1: Today's Revenue -->
+      <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between cyber-card-glow">
+        <div class="flex items-center justify-between text-on-surface-variant text-xs">
+          <span>فروش امروز</span>
+          <span class="material-symbols-outlined text-primary-fixed text-[20px]">payments</span>
+        </div>
+        <div class="flex items-baseline gap-2 mt-3">
+          <span class="text-3xl font-extrabold font-mono text-white">۲,۸۵۰,۰۰۰</span>
+          <span class="text-xs text-on-surface-variant">تومان</span>
+        </div>
+        <div class="mt-3 flex items-center gap-1 text-primary-fixed font-mono text-xs">
+          <span class="material-symbols-outlined text-[15px]">trending_up</span>
+          <span>+۱۸٪ نسبت به دیروز</span>
+        </div>
+      </div>
+
+      <!-- Metric 2: Month Revenue -->
+      <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between cyber-card-glow-cyan">
+        <div class="flex items-center justify-between text-on-surface-variant text-xs">
+          <span>فروش این ماه</span>
+          <span class="material-symbols-outlined text-secondary-container text-[20px]">analytics</span>
+        </div>
+        <div class="flex items-baseline gap-2 mt-3">
+          <span class="text-3xl font-extrabold font-mono text-secondary-container">۴۸,۳۰۰,۰۰۰</span>
+          <span class="text-xs text-on-surface-variant">تومان</span>
+        </div>
+        <div class="mt-3 flex items-center justify-between text-on-surface-variant font-mono text-xs">
+          <span>هدف ماه: ۸۰M (۶۰٪)</span>
+          <span>بازه ۳۰ روزه</span>
+        </div>
+      </div>
+
+      <!-- Metric 3: Pending Orders -->
+      <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between cyber-card-glow">
+        <div class="flex items-center justify-between text-on-surface-variant text-xs">
+          <span>سفارش‌های در انتظار بررسی</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-secondary-container animate-pulse"></span>
+        </div>
+        <div class="flex items-baseline gap-2 mt-3">
+          <span class="text-3xl font-extrabold font-mono text-white" id="pendingCount">۳</span>
+          <span class="text-xs text-primary-fixed font-mono">نیازمند رسیدگی فوری</span>
+        </div>
+        <div class="mt-3 flex items-center justify-between text-on-surface-variant font-mono text-xs">
+          <span>کل سفارشات: ۳۴۲</span>
+          <span>میانگین تایید: ۴ دقیقه</span>
+        </div>
+      </div>
+
+      <!-- Metric 4: Nodes & Users -->
+      <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between cyber-card-glow">
+        <div class="flex items-center justify-between text-on-surface-variant text-xs">
+          <span>شبکه نودها و کاربران</span>
+          <span class="material-symbols-outlined text-primary-fixed text-[20px]">hub</span>
+        </div>
+        <div class="flex items-baseline gap-2 mt-3">
+          <span class="text-3xl font-extrabold font-mono text-white">۱,۲۸۰</span>
+          <span class="text-xs text-on-surface-variant">کاربر فعال</span>
+        </div>
+        <div class="mt-3 flex items-center justify-between text-on-surface-variant font-mono text-xs">
+          <span class="text-primary-fixed">۸۹۴ نود متصل V2Ray</span>
+          <span>رفرال: ۶.۲M</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 7-DAY REVENUE & BANDWIDTH SVG CHART SECTION -->
+    <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 shadow-xl flex flex-col gap-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[20px] text-primary-fixed">query_stats</span>
+            <h3 class="text-base font-bold text-white">نمودار ترافیک تراکنش‌ها و لود سرورها (۷ روز گذشته)</h3>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-0.5">مانیتورینگ برخط حجم ورودی تومانی و پهنای باند همزمان خروجی کلاسترها</p>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs font-mono">
+          <span class="flex items-center gap-1.5 text-primary-fixed">
+            <span class="w-3 h-3 rounded-sm bg-primary-container"></span>
+            درآمد روزانه (میلیون تومان)
+          </span>
+          <span class="flex items-center gap-1.5 text-secondary-container">
+            <span class="w-3 h-1 bg-secondary-container rounded"></span>
+            مصرف پهنای باند نودها (6Gbps)
+          </span>
+        </div>
+      </div>
+
+      <!-- Visual Vector Graph -->
+      <div class="relative w-full h-56 pt-4 flex flex-col justify-end">
+        <!-- SVG Spline Curve -->
+        <svg class="absolute inset-0 w-full h-44 overflow-visible" preserveAspectRatio="none" viewBox="0 0 700 150">
+          <defs>
+            <linearGradient id="bandGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00e3fd" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#00e3fd" stop-opacity="0.0"/>
+            </linearGradient>
+          </defs>
+          <!-- Smooth Line -->
+          <path d="M 50,110 Q 150,75 250,55 T 450,40 T 650,25" fill="none" stroke="#00e3fd" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="50" cy="110" r="4" fill="#00e3fd"/>
+          <circle cx="150" cy="85" r="4" fill="#00e3fd"/>
+          <circle cx="250" cy="55" r="4" fill="#00e3fd"/>
+          <circle cx="350" cy="70" r="4" fill="#00e3fd"/>
+          <circle cx="450" cy="40" r="4" fill="#00e3fd"/>
+          <circle cx="550" cy="45" r="4" fill="#00e3fd"/>
+          <circle cx="650" cy="25" r="5" fill="#00ff9d" stroke="#fff" stroke-width="2"/>
+        </svg>
+
+        <!-- 7 Columns Data Bars -->
+        <div class="grid grid-cols-7 gap-2 sm:gap-6 items-end h-40 z-10 px-2 sm:px-6">
+          
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۳.۲M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 48px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">شنبه (۱۸)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۴.۸M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 64px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">یکشنبه (۱۹)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۵.۴M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 78px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">دوشنبه (۲۰)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۳.۹M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 56px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">سه‌شنبه (۲۱)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۶.۲M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 90px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">چهارشنبه (۲۲)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">۶.۹M</span>
+            <div class="w-full max-w-[42px] bg-surface-container-high rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 102px;"></div>
+            <span class="text-[11px] font-mono text-on-surface-variant">پنج‌شنبه (۲۳)</span>
+          </div>
+
+          <div class="flex flex-col items-center gap-2 group">
+            <span class="text-[11px] font-mono text-primary-fixed font-bold">۲.۸۵M</span>
+            <div class="w-full max-w-[42px] bg-gradient-to-t from-primary-container to-secondary-container rounded-t-lg shadow-lg shadow-primary-container/20" style="height: 82px;"></div>
+            <span class="text-[11px] font-mono text-primary-fixed font-bold">امروز (جمعه ۲۴)</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS TABLE & MANAGEMENT -->
+    <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 shadow-xl flex flex-col gap-5">
+      
+      <!-- Table Header & Filter Row -->
+      <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-[20px] text-secondary-container">shopping_cart</span>
+            <h3 class="text-base font-bold text-white">مدیریت سفارش‌ها و تایید تراکنش‌ها</h3>
+          </div>
+          <p class="text-xs text-on-surface-variant mt-0.5">بررسی فیش‌های بانکی کارت به کارت، صدور آنی اکانت و ثبت لغو</p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-surface-container border border-white/5 text-xs font-mono">
+          <button class="order-filter-btn px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-white" onclick="filterOrderTable('all', this)">همه (۳۲۲)</button>
+          <button class="order-filter-btn px-3 py-1.5 rounded-lg bg-primary-container text-on-primary-container font-bold" onclick="filterOrderTable('pending', this)">در انتظار بررسی (۳)</button>
+          <button class="order-filter-btn px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-white" onclick="filterOrderTable('approved', this)">تایید شده (۲۸)</button>
+          <button class="order-filter-btn px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-white" onclick="filterOrderTable('rejected', this)">رد شده (۵)</button>
+          <button class="order-filter-btn px-3 py-1.5 rounded-lg text-on-surface-variant hover:text-white" onclick="filterOrderTable('completed', this)">تکمیل شده (۳۰۶)</button>
+        </div>
+      </div>
+
+      <!-- Search bar -->
+      <div class="relative w-full max-w-md">
+        <input type="text" id="orderSearchInput" oninput="searchOrderTable(this.value)" placeholder="جستجو بر اساس شماره سفارش، کاربر یا مبلغ..." class="w-full bg-surface-container text-white placeholder:text-on-surface-variant text-xs rounded-xl pr-10 pl-4 py-2.5 outline-none border border-white/5 focus:ring-1 focus:ring-primary-container"/>
+        <span class="material-symbols-outlined absolute right-3 top-2.5 text-[18px] text-on-surface-variant">search</span>
+      </div>
+
+      <!-- Orders Data Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-right text-xs font-mono">
+          <thead class="bg-surface-container text-on-surface-variant border-b border-white/5">
+            <tr>
+              <th class="p-3.5 font-bold">شماره سفارش</th>
+              <th class="p-3.5 font-bold">کاربر</th>
+              <th class="p-3.5 font-bold">سرویس خریداری‌شده</th>
+              <th class="p-3.5 font-bold">مبلغ پرداختی</th>
+              <th class="p-3.5 font-bold">تاریخ و ساعت</th>
+              <th class="p-3.5 font-bold text-center">رسید بانکی</th>
+              <th class="p-3.5 font-bold text-center">وضعیت</th>
+              <th class="p-3.5 font-bold text-center">عملیات</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5" id="orderTableBody">
+            
+            <!-- ORDER 1 (Pending) -->
+            <tr class="hover:bg-surface-container/60 transition-colors" data-order-status="pending" id="order-row-1">
+              <td class="p-3.5 font-bold text-primary-fixed">#PM-98421</td>
+              <td class="p-3.5">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[10px] text-primary-fixed">P</div>
+                  <div>
+                    <span class="text-white font-bold block">کاربر پوریا</span>
+                    <span class="text-[10px] text-on-surface-variant">۰۹۱۲***۲۸۵**</span>
+                  </div>
+                </div>
+              </td>
+              <td class="p-3.5">
+                <div class="flex flex-col">
+                  <span class="text-white font-bold">کانفیگ VIP آلمان (۶۰GB)</span>
+                  <span class="text-[10px] text-on-surface-variant">پروتکل VLESS Reality + تونل اختصاصی</span>
+                </div>
+              </td>
+              <td class="p-3.5 font-bold text-white">۳۴۰,۰۰۰ تومان</td>
+              <td class="p-3.5 text-on-surface-variant">۱۴۰۳/۰۸/۲۴<br/>۱۶:۲۰:۰۸</td>
+              <td class="p-3.5 text-center">
+                <button onclick="previewBankReceipt('PM-98421', 'سامان / بلو', '۳۴۰,۰۰۰ تومان', '۹۸۲۳۷۴۲۳۴')" class="px-2.5 py-1 rounded bg-secondary-container/15 text-secondary-container hover:bg-secondary-container/25 text-[11px] inline-flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">receipt</span>
+                  <span>فیش بانکی</span>
+                </button>
+              </td>
+              <td class="p-3.5 text-center">
+                <span class="px-2.5 py-1 rounded-full bg-secondary-container/20 text-secondary-container text-[11px] font-bold inline-block" id="status-badge-1">
+                  در انتظار تایید
+                </span>
+              </td>
+              <td class="p-3.5 text-center">
+                <div class="flex items-center justify-center gap-2" id="action-btns-1">
+                  <button onclick="approveOrderAction('1', 'PM-98421', 'کاربر پوریا')" class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center gap-1 shadow-sm">
+                    <span class="material-symbols-outlined text-[14px]">check</span>
+                    <span>تایید سفارش</span>
+                  </button>
+                  <button onclick="openRejectDialog('PM-98421', 'کاربر پوریا', '1')" class="px-2.5 py-1.5 rounded-lg bg-surface-container-high hover:bg-error-container text-error hover:text-white text-xs flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">close</span>
+                    <span>رد</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <!-- ORDER 2 (Completed) -->
+            <tr class="hover:bg-surface-container/60 transition-colors" data-order-status="completed" id="order-row-2">
+              <td class="p-3.5 font-bold text-white">#PM-98418</td>
+              <td class="p-3.5">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[10px] text-secondary">R</div>
+                  <div>
+                    <span class="text-white font-bold block">رضا کبیری</span>
+                    <span class="text-[10px] text-on-surface-variant">۰۹۳۵***۹۹**</span>
+                  </div>
+                </div>
+              </td>
+              <td class="p-3.5">
+                <div class="flex flex-col">
+                  <span class="text-white font-bold">سرور گیمینگ فنلاند (پینگ پایین)</span>
+                  <span class="text-[10px] text-on-surface-variant">WireGuard UDP UDP-Direct</span>
+                </div>
+              </td>
+              <td class="p-3.5 font-bold text-white">۲۴۰,۰۰۰ تومان</td>
+              <td class="p-3.5 text-on-surface-variant">۱۴۰۳/۰۸/۲۴<br/>۱۵:۱۰:۲۲</td>
+              <td class="p-3.5 text-center">
+                <span class="text-primary-fixed inline-flex items-center gap-1 text-[11px]">
+                  <span class="material-symbols-outlined text-[14px]">done_all</span>
+                  موفق
+                </span>
+              </td>
+              <td class="p-3.5 text-center">
+                <span class="px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface-variant text-[11px] inline-block">
+                  تکمیل و ارسال شده
+                </span>
+              </td>
+              <td class="p-3.5 text-center">
+                <button onclick="copyDeliveredConfig('PM-98418')" class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-white text-xs inline-flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">visibility</span>
+                  <span>کانفیگ ارسالی</span>
+                </button>
+              </td>
+            </tr>
+
+            <!-- ORDER 3 (Rejected) -->
+            <tr class="hover:bg-surface-container/60 transition-colors" data-order-status="rejected" id="order-row-3">
+              <td class="p-3.5 font-bold text-on-surface-variant">#PM-98405</td>
+              <td class="p-3.5">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center text-[10px] text-error">A</div>
+                  <div>
+                    <span class="text-white font-bold block">علی سلیمانی</span>
+                    <span class="text-[10px] text-on-surface-variant">۰۹۹۰***۱۲**</span>
+                  </div>
+                </div>
+              </td>
+              <td class="p-3.5">
+                <div class="flex flex-col">
+                  <span class="text-white font-bold">کانفیگ فرانسه دو کاربره</span>
+                  <span class="text-[10px] text-error">علت رد: فیش فاقد کد پیگیری / مغایرت مبلغ</span>
+                </div>
+              </td>
+              <td class="p-3.5 font-bold text-on-surface-variant line-through">۱۸۵,۰۰۰ تومان</td>
+              <td class="p-3.5 text-on-surface-variant">۱۴۰۳/۰۸/۲۳<br/>۱۱:۲۵:۰۲</td>
+              <td class="p-3.5 text-center">
+                <span class="text-error inline-flex items-center gap-1 text-[11px]">
+                  <span class="material-symbols-outlined text-[14px]">cancel</span>
+                  نامعتبر
+                </span>
+              </td>
+              <td class="p-3.5 text-center">
+                <span class="px-2.5 py-1 rounded-full bg-error-container/30 text-error text-[11px] font-bold inline-block">
+                  رد شده
+                </span>
+              </td>
+              <td class="p-3.5 text-center">
+                <button onclick="showToast('تاریخچه پیام ابلاغی به کاربر مشاهده شد.', 'info')" class="px-2.5 py-1.5 rounded-lg bg-surface-container text-on-surface-variant hover:text-white text-xs inline-flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">history</span>
+                  <span>تاریخچه پیام</span>
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM OPERATIONAL DISPATCH & REJECTION WORKFLOW -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- DISPATCH MODULE (RIGHT) -->
+      <div class="p-6 rounded-2xl bg-surface-container-low border border-primary-container/30 shadow-xl flex flex-col gap-4 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-fixed text-[24px]">verified</span>
+            <div>
+              <h3 class="text-base font-bold text-white">تایید سفارش و تحویل کانفیگ</h3>
+              <span class="text-xs text-on-surface-variant font-mono">شناسه فاکتور: <strong class="text-primary-fixed" id="activeDispatchId">#PM-98421 (کاربر پوریا)</strong></span>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-primary-container/15 text-primary-fixed font-mono text-[10px] font-bold">READY TO DISPATCH</span>
+        </div>
+
+        <div class="space-y-3 font-mono text-xs">
+          <div class="flex flex-col gap-1">
+            <label class="text-on-surface-variant">انتخاب سرور و کلاستر مقصد:</label>
+            <select class="bg-surface-container text-white p-2.5 rounded-xl border border-white/5 outline-none focus:ring-1 focus:ring-primary-container">
+              <option>DE-Frankfurt-Cluster-04 (Xray-Reality 10Gbps Dedicated)</option>
+              <option>FI-Helsinki-WG-02 (WireGuard UDP FastTrack)</option>
+              <option>NL-Amsterdam-Stream-01 (gRPC ZeroBuffer)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between">
+              <label class="text-on-surface-variant">لینک کانفیگ (VLESS / VMESS / TUIC) یا ساب‌لینک اختصاصی:</label>
+              <button onclick="generateFreshConfig()" class="text-primary-fixed hover:underline flex items-center gap-1 text-[11px]">
+                <span class="material-symbols-outlined text-[13px]">autorenew</span>
+                <span>تولید خودکار از پنل نود</span>
+              </button>
+            </div>
+            <textarea id="dispatchConfigArea" rows="3" class="w-full bg-surface-container text-primary-fixed font-mono text-xs rounded-xl p-2.5 outline-none border border-white/5 focus:ring-1 focus:ring-primary-container" dir="ltr">vless://7f94bc32-15f9-4b47-b82b-100234a980ff@de04.pandahub.cloud:443?encryption=none&security=reality&sni=speedtest.net&fp=chrome#Panda-VIP-DE-Frankfurt</textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="flex flex-col gap-1">
+              <label class="text-on-surface-variant">حجم اختصاصی:</label>
+              <input type="text" value="۶۰ گیگابایت (۳۰ روزه)" class="bg-surface-container text-white p-2 rounded-xl border border-white/5 outline-none"/>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-on-surface-variant">تاریخ انقضا:</label>
+              <input type="text" value="۱۴۰۳/۰۹/۲۴" class="bg-surface-container text-white p-2 rounded-xl border border-white/5 outline-none"/>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label class="text-on-surface-variant">پیام راهنما و یادداشت اتصال به کاربر:</label>
+            <input type="text" value="کانفیگ با موفقیت فعال شد. در نرم‌افزار v2rayNG یا Streisand وارد کرده و DNS را روی اتوماتیک قرار دهید." class="bg-surface-container text-white p-2 rounded-xl border border-white/5 outline-none"/>
+          </div>
+
+          <div class="flex items-center gap-2 pt-1 text-on-surface-variant">
+            <input type="checkbox" id="notifyUserCheck" checked class="accent-primary-container"/>
+            <label for="notifyUserCheck" class="cursor-pointer">پیامک و ایمیل خودکار به خریدار ارسال خواهد شد</label>
+          </div>
+        </div>
+
+        <button onclick="executeDispatch()" class="w-full py-3 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95">
+          <span class="material-symbols-outlined text-[18px]">send</span>
+          <span>تایید و ارسال آنی سرویس به کاربر</span>
+        </button>
+      </div>
+
+      <!-- REJECTION FLOW (LEFT) -->
+      <div class="p-6 rounded-2xl bg-surface-container-low border border-error/30 shadow-xl flex flex-col gap-4 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-error text-[24px]">cancel</span>
+            <div>
+              <h3 class="text-base font-bold text-white">رد سفارش و ابطال فاکتور</h3>
+              <span class="text-xs text-on-surface-variant font-mono">سفارش انتخابی: <strong class="text-error" id="activeRejectId">#PM-98405 (علی سلیمانی)</strong></span>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 rounded bg-error-container/30 text-error font-mono text-[10px] font-bold">REJECTION FLOW</span>
+        </div>
+
+        <div class="space-y-3 font-mono text-xs">
+          <div class="flex flex-col gap-1">
+            <label class="text-on-surface-variant">دلیل رد سفارش:</label>
+            <select id="rejectReasonSelect" class="bg-surface-container text-white p-2.5 rounded-xl border border-white/5 outline-none focus:ring-1 focus:ring-error">
+              <option>رسید بانکی جعلی یا نامعتبر (عدم واریز وجه به حساب)</option>
+              <option>مغایرت مبلغ واریزی با پیش‌فاکتور رسمی</option>
+              <option>انقضای مهلت پرداخت پیش‌فاکتور (بیش از ۴۸ ساعت)</option>
+              <option>شماره پیگیری تکراری یا استفاده شده در سفارش دیگر</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label class="text-on-surface-variant">توضیحات و پیام ارسال‌شونده به پنل کاربر:</label>
+            <textarea id="rejectNoteText" rows="4" class="w-full bg-surface-container text-white font-sans text-xs rounded-xl p-2.5 outline-none border border-white/5 focus:ring-1 focus:ring-error">کاربر گرامی، مبلغ قید شده در فیش با شماره پیگیری درج شده به حساب واریز نگردیده است. لطفاً پرینت بانکی ۱۰ گردش آخر را در بخش تیکت پشتیبانی بارگذاری نمایید تا بازبینی مجدد صورت گیرد.</textarea>
+          </div>
+
+          <div class="flex items-center gap-2 pt-2 text-on-surface-variant">
+            <input type="checkbox" id="fraudAlertCheck" class="accent-error"/>
+            <label for="fraudAlertCheck" class="text-error cursor-pointer">علامت‌گذاری کاربر به عنوان پرداخت‌های مشکوک (Fraud Alert)</label>
+          </div>
+        </div>
+
+        <div class="mt-auto pt-3 flex flex-col gap-2">
+          <button onclick="executeReject()" class="w-full py-3 rounded-xl bg-error hover:bg-error-container text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95">
+            <span class="material-symbols-outlined text-[18px]">block</span>
+            <span>ثبت قطعی و ابلاغ به کاربر</span>
+          </button>
+          <span class="text-center text-[10px] text-on-surface-variant font-mono">تیکت خودکار رد سفارش ایجاد می‌شود</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUICK CARD SETTINGS & REFERRAL BOTTOM ROW -->
+    <div id="cardSettingsSection" class="p-6 rounded-2xl bg-surface-container-low border border-white/5 shadow-xl flex flex-col gap-5">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-fixed text-[22px]">tune</span>
+          <h3 class="text-sm font-bold text-white">تنظیمات سریع درگاه کارت به کارت و سیستم همکاری (رفرال)</h3>
+        </div>
+        <span class="text-xs text-on-surface-variant font-mono">شماره کارت فعال مقصد جهت نمایش در فاکتورهای کاربران و تغییر نرخ بازاریابی</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+        
+        <div class="flex flex-col gap-1.5">
+          <label class="text-on-surface-variant">شماره کارت مقصد (بانک سامان / مرکزی):</label>
+          <div class="flex items-center gap-2">
+            <input type="text" id="adminCardInput" value="6219-8610-5432-9012" class="flex-1 bg-surface-container text-white font-mono p-2.5 rounded-xl border border-white/5 outline-none focus:ring-1 focus:ring-primary-container text-center" dir="ltr"/>
+            <button onclick="copyToClipboard(document.getElementById('adminCardInput').value, this)" class="p-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-white" title="کپی">
+              <span class="material-symbols-outlined text-[18px]">content_copy</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-on-surface-variant">نام صاحب حساب و نام خانوادگی:</label>
+          <input type="text" id="adminCardOwnerInput" value="پوریا خزایی نژاد (حساب امن شرکتی)" class="w-full bg-surface-container text-white p-2.5 rounded-xl border border-white/5 outline-none focus:ring-1 focus:ring-primary-container"/>
+        </div>
+
+        <div class="flex items-end gap-3">
+          <div class="flex-1 flex flex-col gap-1.5">
+            <label class="text-on-surface-variant">درصد کمیسیون رفرال:</label>
+            <div class="flex items-center gap-2">
+              <span class="text-2xl font-bold text-secondary font-mono">۱۵٪</span>
+              <span class="text-on-surface-variant text-[11px]">از هر خرید زیرمجموعه</span>
+            </div>
+          </div>
+          <button onclick="saveAdminSettings()" class="px-5 py-2.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-xs shadow-md transition-all">
+            بروزرسانی
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    function scrollToCardSettings() {
+      document.getElementById('cardSettingsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function syncXrayClusters(btn) {
+      const icon = document.getElementById('syncXrayIcon');
+      if (icon) icon.classList.add('animate-spin');
+      showToast('در حال دریافت وضعیت لحظه‌ای کلاسترهای فرانکفورت و هلسینکی...');
+      setTimeout(() => {
+        if (icon) icon.classList.remove('animate-spin');
+        showToast('تمام کلاسترهای Xray با موفقیت همگام‌سازی شدند.');
+      }, 900);
+    }
+
+    function previewBankReceipt(orderId, bank, amount, tracking) {
+      showToast(`فیش سفارش #${orderId} (${bank} - ${amount} - کد: ${tracking}) در سرور تایید شده است.`, 'info');
+    }
+
+    function approveOrderAction(rowId, orderId, userName) {
+      document.getElementById('activeDispatchId').textContent = `#${orderId} (${userName})`;
+      document.getElementById(`status-badge-${rowId}`).textContent = 'تایید شد';
+      document.getElementById(`status-badge-${rowId}`).className = 'px-2.5 py-1 rounded-full bg-primary-container text-on-primary-container text-[11px] font-bold inline-block';
+      document.getElementById(`action-btns-${rowId}`).innerHTML = `<span class="text-primary-fixed text-xs flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span>سرویس صادر شد</span>`;
+      
+      const pendingCountElem = document.getElementById('pendingCount');
+      if (pendingCountElem) pendingCountElem.textContent = '۲';
+
+      showToast(`سفارش #${orderId} تایید گردید. لینک اتصال برای ${userName} صادر شد!`);
+    }
+
+    function openRejectDialog(orderId, userName, rowId) {
+      document.getElementById('activeRejectId').textContent = `#${orderId} (${userName})`;
+      showToast(`فرم رد سفارش برای #${orderId} آماده ثبت است. لطفاً دلیل را مشخص کنید.`, 'error');
+    }
+
+    function executeDispatch() {
+      showToast('کانفیگ با موفقیت در کلاستر ذخیره و به پنل کاربر و پیامک او ارسال شد.', 'success');
+    }
+
+    function executeReject() {
+      showToast('سفارش ابطال شد و پیام اطلاع‌رسانی همراه با علت به پنل کاربر ارسال گردید.', 'info');
+    }
+
+    function generateFreshConfig() {
+      const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+      document.getElementById('dispatchConfigArea').value = `vless://${uuid}@de04.pandahub.cloud:443?encryption=none&security=reality&sni=speedtest.net&fp=chrome#Panda-VIP-DE-Hetzner`;
+      showToast('کانفیگ اختصاصی جدید با موفقیت تولید شد.');
+    }
+
+    function copyDeliveredConfig(orderId) {
+      copyToClipboard(`vless://77f94bc32-15f9-4b47-b82b-100234a980ff@fi-hel.pandanet.live:443?encryption=none&security=tls#Panda-${orderId}`);
+    }
+
+    function saveAdminSettings() {
+      const newCard = document.getElementById('adminCardInput').value;
+      const newOwner = document.getElementById('adminCardOwnerInput').value;
+      localStorage.setItem('panda_admin_card', newCard);
+      localStorage.setItem('panda_admin_card_owner', newOwner);
+      showToast('اطلاعات کارت بانکی با موفقیت ذخیره شد و در فاکتورها اعمال گردید.');
+    }
+
+    function filterOrderTable(filter, btn) {
+      document.querySelectorAll('.order-filter-btn').forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+        b.classList.add('text-on-surface-variant');
+      });
+      btn.classList.remove('text-on-surface-variant');
+      btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+
+      const rows = document.querySelectorAll('#orderTableBody tr');
+      rows.forEach(row => {
+        const status = row.getAttribute('data-order-status');
+        if (filter === 'all' || status === filter) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function searchOrderTable(query) {
+      const q = query.toLowerCase().trim();
+      const rows = document.querySelectorAll('#orderTableBody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        if (text.includes(q)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

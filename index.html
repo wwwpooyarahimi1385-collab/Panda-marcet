@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="fa">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panda Market | پاندا مارکت - شبکه و سرورهای دیجیتال اختصاصی</title>
+  <meta name="description" content="فروش کانفیگ‌های اختصاصی، سرورهای فوق سریع بدون قطعی و اتصال پایدار گیمینگ و استریم با گارانتی ۱۰۰٪ بازگشت وجه"/>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#10131a",
+            surface: "#10131a",
+            "surface-dim": "#10131a",
+            "surface-container-lowest": "#0b0e14",
+            "surface-container-low": "#191c22",
+            "surface-container": "#1d2026",
+            "surface-container-high": "#272a31",
+            "surface-container-highest": "#32353c",
+            primary: "#f4fff3",
+            "on-primary": "#00391f",
+            "primary-container": "#00ff9d",
+            "on-primary-container": "#007143",
+            "primary-fixed": "#56ffa8",
+            "primary-fixed-dim": "#00e38b",
+            secondary: "#bdf4ff",
+            "secondary-container": "#00e3fd",
+            "on-secondary-container": "#00616d",
+            "secondary-fixed": "#9cf0ff",
+            "secondary-fixed-dim": "#00daf3",
+            "on-surface": "#e0e2eb",
+            "on-surface-variant": "#b9cbbc",
+            error: "#ffb4ab",
+            "error-container": "#93000a",
+          },
+          fontFamily: {
+            sans: ["Vazirmatn", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            headline: ["Space Grotesk", "Vazirmatn", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body class="bg-background text-on-surface font-sans antialiased selection:bg-primary-container selection:text-on-primary">
+
+  <!-- TOP HEADER -->
+  <header class="fixed top-0 right-0 left-0 z-50 bg-[#0b0e14]/85 backdrop-blur-2xl border-b border-white/5">
+    <div class="h-20 max-w-[1440px] mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
+      
+      <!-- Brand & Nav -->
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-container/20 to-secondary-container/20 border border-primary-container/30 flex items-center justify-center text-primary-container shadow-md">
+            <span class="material-symbols-outlined text-[26px]">vpn_lock</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline font-bold text-xl tracking-tight text-white flex items-center gap-1.5">
+              Panda Market
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            </span>
+            <span class="text-[11px] font-mono text-primary-fixed">پاندا مارکت | شبکه غیرمتمرکز</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden xl:flex items-center gap-1">
+          <a href="index.html" class="px-3.5 py-1.5 rounded-lg text-primary-fixed font-bold text-sm bg-surface-container-high/60">خانه</a>
+          <a href="servers.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container-high/40 transition-colors text-sm">سرورهای من</a>
+          <a href="products.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container-high/40 transition-colors text-sm">پنل‌ها و سرویس‌ها</a>
+          <a href="checkout.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container-high/40 transition-colors text-sm">پیش‌فاکتور و پرداخت</a>
+          <a href="about.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container-high/40 transition-colors text-sm">درباره ما</a>
+          <a href="contact.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white hover:bg-surface-container-high/40 transition-colors text-sm">پشتیبانی و تیکت</a>
+          <a href="admin.html" class="px-3 py-1.5 rounded-lg text-[#00e3fd] hover:bg-[#00e3fd]/10 transition-colors text-xs font-mono border border-[#00e3fd]/30">پنل مدیریت</a>
+        </nav>
+      </div>
+
+      <!-- Header Left Tools -->
+      <div class="flex items-center gap-3">
+        <!-- Cart Button -->
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-white transition-all flex items-center justify-center border border-white/5" title="سبد خرید">
+          <span class="material-symbols-outlined text-[22px]">shopping_cart</span>
+          <span class="cart-badge absolute -top-1 -right-1 flex h-4 min-w-[1rem] px-1 items-center justify-center rounded-full bg-primary-container text-on-primary-container font-mono text-[11px] font-bold">۲</span>
+        </button>
+
+        <!-- Notification Bell -->
+        <button onclick="showToast('همه سرورها و پروتکل‌ها بدون اختلال و ۱۰۰٪ فعال هستند.', 'info')" class="relative p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-white transition-all flex items-center justify-center border border-white/5" title="اعلانات سیستم">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-secondary-container animate-pulse"></span>
+        </button>
+
+        <!-- User Wallet Badge -->
+        <div class="hidden sm:flex items-center gap-3 bg-surface-container-low px-3.5 py-1.5 rounded-lg border border-white/5">
+          <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary-fixed border border-primary-container/30">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col text-right">
+            <span class="text-xs font-medium text-white">کاربر حرفه‌ای</span>
+            <div class="flex items-center gap-1">
+              <span class="font-mono text-xs font-bold text-primary-fixed">۲۵۰,۰۰۰</span>
+              <span class="text-[10px] text-on-surface-variant">تومان</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="w-full pt-20 pb-20 md:pb-12">
+    
+    <!-- HERO SECTION -->
+    <section class="relative overflow-hidden bg-surface-container-lowest border-b border-white/5 pt-8 pb-16">
+      <!-- Glow ambient background -->
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_-10%,rgba(0,255,157,0.12),transparent)] pointer-events-none"></div>
+
+      <div class="max-w-[1440px] mx-auto px-4 md:px-8 relative z-10">
+        
+        <!-- Live Diagnostic Pill Top -->
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-high/80 border border-primary-container/20 text-xs text-primary-fixed">
+            <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            <span class="font-mono tracking-wider">SYS::ACTIVE_NODE STABLE 99.9%</span>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs text-on-surface-variant font-mono">
+            <span class="text-primary-fixed">● ۴ نسل جدید کانفیگ و تونل‌های پرسرعت اختصاصی</span>
+          </div>
+        </div>
+
+        <!-- 2-Column Hero Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Col (RTL right): Title & CTAs -->
+          <div class="lg:col-span-7 flex flex-col gap-6">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+              سرویس‌های دیجیتال شبکه <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-container to-secondary-container">Panda Market</span> با کیفیت نظامی و مدیریت هوشمند
+            </h1>
+            
+            <p class="text-base md:text-lg text-on-surface-variant leading-relaxed">
+              فروش کانفیگ‌های اختصاصی، سرورهای فوق سریع بدون قطعی و اتصال پایدار گیمینگ و استریم با گارانتی ۱۰۰٪ بازگشت وجه، تحویل آنی خودکار در کمتر از ۱۰ ثانیه.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="products.html" class="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-primary-container text-on-primary-container font-bold text-sm shadow-[0_0_25px_rgba(0,255,157,0.3)] hover:bg-primary-fixed transition-all active:scale-95">
+                <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                <span>مشاهده سرویس‌ها</span>
+              </a>
+
+              <a href="#plans" class="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white font-medium text-sm border border-white/10 transition-all">
+                <span class="material-symbols-outlined text-[20px]">tune</span>
+                <span>مشاهده پلن‌های اختصاصی</span>
+              </a>
+
+              <a href="https://t.me/PandaMarket_Net" target="_blank" class="flex items-center gap-2 px-5 py-3.5 rounded-xl bg-[#0088cc]/15 text-[#00daf3] hover:bg-[#0088cc]/25 text-sm border border-[#0088cc]/30 transition-all font-mono">
+                <span class="material-symbols-outlined text-[18px]">send</span>
+                <span>سفارش سریع تلگرام</span>
+              </a>
+            </div>
+
+            <!-- Cyber Feature Chips -->
+            <div class="flex flex-wrap items-center gap-3 pt-3 text-xs text-on-surface-variant font-mono">
+              <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-primary-fixed">lock</span>
+                <span>رمزنگاری عمیق ChaCha20</span>
+              </div>
+              <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-primary-fixed">wifi_tethering</span>
+                <span>بدون قطعی در تمام اپراتورها</span>
+              </div>
+              <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-secondary-container">alt_route</span>
+                <span>سوییچ اتوماتیک هوشمند IP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Col (RTL left): Live Oscilloscope & Telemetry Node -->
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl bg-surface-container-low/90 border border-primary-container/20 p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+              <div class="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent"></div>
+              
+              <!-- Header info inside card -->
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-col">
+                  <span class="text-xs font-mono text-on-surface-variant">پروتکل‌های چندگانه فعال (Smart Routing):</span>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="px-2 py-0.5 rounded bg-surface-container-high text-xs text-on-surface-variant font-mono">Shadowsocks 2022</span>
+                    <span class="px-2 py-0.5 rounded bg-surface-container-high text-xs text-on-surface-variant font-mono">WireGuard Fast</span>
+                    <span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary-fixed font-bold text-xs font-mono">VLESS REALITY</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 text-[11px] font-mono text-primary-fixed bg-primary-container/10 px-2 py-1 rounded">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-ping"></span>
+                  LIVE
+                </div>
+              </div>
+
+              <!-- Canvas Oscilloscope Wave -->
+              <div class="ping-canvas-container p-3 rounded-xl mb-4 relative">
+                <div class="flex items-center justify-between text-[11px] font-mono text-on-surface-variant mb-1">
+                  <span class="text-primary-fixed font-bold">ms AVG 11.4</span>
+                  <span class="text-[#00e3fd]">نوسان تاخیر بسته (Jitter / Ping)</span>
+                </div>
+                <canvas id="pingWaveCanvas" class="w-full h-[70px] block"></canvas>
+              </div>
+
+              <!-- Gauges Row -->
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="p-3 rounded-xl bg-surface-container-lowest border border-white/5 flex flex-col">
+                  <span class="text-[11px] text-on-surface-variant">پهنای باند نود مرکزی:</span>
+                  <div class="flex items-baseline gap-1 mt-1">
+                    <span class="text-xl font-bold font-mono text-white">10</span>
+                    <span class="text-xs font-mono text-primary-fixed">Gbps</span>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl bg-surface-container-lowest border border-white/5 flex flex-col">
+                  <span class="text-[11px] text-on-surface-variant">تونل رمزنگاری:</span>
+                  <div class="flex items-baseline gap-1 mt-1">
+                    <span class="text-sm font-bold font-mono text-secondary">AES-GCM 256</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live Ping Button -->
+              <button onclick="simulatePing(this)" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white font-mono text-xs flex items-center justify-center gap-2 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[18px] text-primary-fixed">speed</span>
+                <span>تست زنده پینگ و اتصال به نزدیک‌ترین سرور</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 4 KPI Telemetry Counters Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+          
+          <div class="p-4 rounded-xl bg-surface-container-low/70 border border-white/5 flex flex-col justify-between">
+            <span class="text-xs text-on-surface-variant">پینگ داخلی شبکه (IR-IX)</span>
+            <div class="flex items-baseline gap-1 mt-2">
+              <span class="text-3xl font-extrabold font-mono text-primary-fixed">۱۰</span>
+              <span class="text-xs text-on-surface-variant">میلی‌ثانیه (ms)</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-low/70 border border-white/5 flex flex-col justify-between">
+            <span class="text-xs text-on-surface-variant">آپتایم و پایداری نودها</span>
+            <div class="flex items-baseline gap-1 mt-2">
+              <span class="text-3xl font-extrabold font-mono text-white">۹۹.۹۸٪</span>
+              <span class="text-xs text-primary-fixed font-mono">SLA تضمینی</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-low/70 border border-white/5 flex flex-col justify-between">
+            <span class="text-xs text-on-surface-variant">پهنای باند لحظه‌ای فعال</span>
+            <div class="flex items-baseline gap-1 mt-2">
+              <span class="text-3xl font-extrabold font-mono text-secondary-container">۴۰+</span>
+              <span class="text-xs text-on-surface-variant">گیگابیت / ثانیه</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-low/70 border border-white/5 flex flex-col justify-between">
+            <span class="text-xs text-on-surface-variant">شاخص رضایت خریداران</span>
+            <div class="flex items-baseline gap-1 mt-2">
+              <span class="text-3xl font-extrabold font-mono text-primary-fixed">۹۹.۰۴٪</span>
+              <span class="text-xs text-on-surface-variant">از +۱۲,۰۰۰ نظر</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- COMPETITIVE ADVANTAGES BENTO -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-16">
+      <div class="flex flex-col items-center text-center mb-12">
+        <span class="px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/30 text-xs font-mono text-primary-fixed mb-3">
+          چرا پاندا مارکت؟
+        </span>
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">
+          مزایای رقابتی زیرساخت شبکه و کانفیگ‌های اختصاصی
+        </h2>
+        <p class="text-sm md:text-base text-on-surface-variant max-w-xl">
+          ما بالاترین کیفیت شبکه، مدرن‌ترین پروتکل‌های ضد فیلتر و تجربه کاربری بدون اصطکاک را ترکیب کرده‌ایم.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Advantage 1 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/30 transition-all cyber-card-glow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">bolt</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">تحویل سریع و کاملاً آنی</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              بلافاصله پس از پرداخت از طریق درگاه یا کیف پول، لینک اتصال و QR Code مستقیماً در پنل کاربری و ایمیل شما نمایش داده می‌شود.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>میانگین زمان صدور:</span>
+            <span class="text-primary-fixed font-bold">۴ ثانیه</span>
+          </div>
+        </div>
+
+        <!-- Advantage 2 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-secondary-container/30 transition-all cyber-card-glow-cyan flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-secondary-container/10 text-secondary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">support_agent</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">پشتیبانی ۲۴/۷ اختصاصی VIP</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              تیم مهندسین شبکه پاندا مارکت در تمامی ساعات شبانه‌روز از طریق تیکت رمزگذاری‌شده و تلگرام اختصاصی پاسخگوی سوالات شما هستند.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>زمان پاسخگویی متوسط:</span>
+            <span class="text-secondary font-bold">کمتر از ۵ دقیقه</span>
+          </div>
+        </div>
+
+        <!-- Advantage 3 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/30 transition-all cyber-card-glow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">tune</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">مدیریت آسان و هوشمند</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              امکان مشاهده ترافیک مصرفی لحظه‌ای، مدت زمان مانده، تغییر پورت و سوییچ پروتکل تنها با یک کلیک در پنل سلف‌سرویس.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>داشبورد تحت وب:</span>
+            <span class="text-primary-fixed">دارای حالت تاریک / موبایل</span>
+          </div>
+        </div>
+
+        <!-- Advantage 4 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-secondary-container/30 transition-all cyber-card-glow-cyan flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-secondary-container/10 text-secondary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">language</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">لوکیشن‌های متعدد و پایدار</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              دیتاسنترهای اختصاصی آلمان (Hetzner)، فنلاند، فرانسه (OVH)، هلند، ترکیه و امارات با پینگ فوق‌العاده مناسب استریم و ترید.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>تعداد نودهای در دسترس:</span>
+            <span class="text-secondary font-bold">۱۲ لوکیشن جهانی</span>
+          </div>
+        </div>
+
+        <!-- Advantage 5 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/30 transition-all cyber-card-glow flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">verified_user</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">امنیت پرداخت و تضمین بازگشت</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              درگاه‌های بانکی معتبر شتابی، کارت به کارت تایید آنی و پذیرش رمزارزها (USDT, TON) به همراه ضمانت بازگشت ۴۸ ساعته هزینه در صورت نارضایتی.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>امنیت پرداخت:</span>
+            <span class="text-primary-fixed">۱۰۰٪ گارانتی تست</span>
+          </div>
+        </div>
+
+        <!-- Advantage 6 -->
+        <div class="p-6 rounded-2xl bg-surface-container-low border border-white/5 hover:border-secondary-container/30 transition-all cyber-card-glow-cyan flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-secondary-container/10 text-secondary-container flex items-center justify-center mb-4">
+              <span class="material-symbols-outlined text-[28px]">qr_code_scanner</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">سازگاری با تمام کلاینت‌ها</h3>
+            <p class="text-sm text-on-surface-variant leading-relaxed">
+              پشتیبانی بی‌نقص از تمامی نرم‌افزارهای استاندارد نظیر v2rayNG, Streisand, Nekoray, Wings, Hiddify و روترهای سخت‌افزاری OpenWrt.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-on-surface-variant">
+            <span>سازگاری نرم‌افزاری:</span>
+            <span class="text-secondary font-mono">Universal Sub Link</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURED PLANS & CONFIGS SECTION -->
+    <section id="plans" class="max-w-[1440px] mx-auto px-4 md:px-8 py-16 border-t border-white/5">
+      
+      <!-- Section Header with Category Tabs -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <div class="flex items-center gap-2 text-xs font-mono text-primary-fixed mb-2">
+            <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+            <span>فروشگاه اختصاصی</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-white">پلن‌ها و کانفیگ‌های برگزیده پاندا</h2>
+          <p class="text-sm text-on-surface-variant mt-1">تحویل آنی لینک هوشمند به همراه آموزش جامع تصویری اتصال برای تمام سیستم‌عامل‌ها</p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex items-center gap-1.5 p-1 rounded-xl bg-surface-container-low border border-white/5 overflow-x-auto">
+          <button class="plan-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-primary-container text-on-primary-container" onclick="filterPlans('all', this)">همه سرویس‌ها</button>
+          <button class="plan-filter-btn px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-white" onclick="filterPlans('vip', this)">اختصاصی VIP</button>
+          <button class="plan-filter-btn px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-white" onclick="filterPlans('gaming', this)">گیمینگ Low-Ping</button>
+          <button class="plan-filter-btn px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-white" onclick="filterPlans('unlimited', this)">ترافیک نامحدود</button>
+        </div>
+      </div>
+
+      <!-- Plans Cards Grid (4 Iconic Cards) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="plansContainer">
+        
+        <!-- CARD 1: GERMANY VIP -->
+        <div class="plan-card rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/40 transition-all cyber-card-glow flex flex-col justify-between overflow-hidden relative" data-category="vip">
+          <div class="p-6">
+            <!-- Top Shelf -->
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-primary-fixed flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                موجود در انبار
+              </span>
+              <span class="text-on-surface-variant">🇩🇪 ۱۸ms آلمان</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-1">کانفیگ اختصاصی VIP آلمان</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              بهترین گزینه برای کارهای روزمره، وبگردی و سرعت دانلود بی‌نهایت بدون افت سرعت شبانه.
+            </p>
+
+            <!-- Specs list -->
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>حجم ترافیک:</span>
+                <span class="text-white font-bold">۶۰ گیگابایت (GB)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>مدت اعتبار:</span>
+                <span class="text-white">۳۰ روزه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر همزمان:</span>
+                <span class="text-primary-fixed font-bold">۲ کاربر</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>پروتکل پشتیبانی:</span>
+                <span class="text-secondary font-bold">Reality + VLESS</span>
+              </div>
+            </div>
+
+            <!-- Guarantee badge -->
+            <div class="p-2 rounded bg-surface-container-highest/60 text-center text-[11px] font-mono text-primary-fixed mb-4">
+              تخصیص ترافیک اختصاصی Guaranteed 100%
+            </div>
+          </div>
+
+          <!-- Bottom Price & CTA -->
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">قیمت نهایی:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white">۱۸۵,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'de-vip', title: 'کانفیگ اختصاصی VIP آلمان', protocol: 'Reality + VLESS', traffic: '۶۰ گیگابایت', duration: '۳۰ روزه', price: 185000, flag: '🇩🇪' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('کانفیگ اختصاصی VIP آلمان (۶۰ گیگ)', 185000)" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: FINLAND GAMING -->
+        <div class="plan-card rounded-2xl bg-surface-container-low border border-secondary-container/30 hover:border-secondary-container transition-all cyber-card-glow-cyan flex flex-col justify-between overflow-hidden relative" data-category="gaming">
+          <div class="p-6">
+            <!-- Discount Badge -->
+            <div class="absolute -left-10 top-5 -rotate-45 bg-secondary-container text-on-secondary-container text-[10px] font-bold py-0.5 px-10 font-mono shadow-md">
+              ۲۰٪ تخفیف
+            </div>
+
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-secondary-container flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+                مخصوص گیمینگ
+              </span>
+              <span class="text-on-surface-variant">🇫🇮 ۲۲ms فنلاند</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-1">سرور گیمینگ Low-Ping فنلاند</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              بهینه‌سازی شده برای UDP، رفع محدودیت‌های استیم، بتل‌نت، وارزون و بازی‌های آنلاین موبایل.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>حجم ترافیک:</span>
+                <span class="text-white font-bold">۱۰۰ گیگابایت (GB)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>مدت اعتبار:</span>
+                <span class="text-white">۳۰ روزه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر همزمان:</span>
+                <span class="text-secondary-container font-bold">۲ کاربر</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>بهینه‌سازی:</span>
+                <span class="text-secondary-container font-bold">UDP Fast Forward</span>
+              </div>
+            </div>
+
+            <div class="p-2 rounded bg-surface-container-highest/60 text-center text-[11px] font-mono text-secondary-container mb-4">
+              تخصیص سرور ویژه گیم Ultra Low Jitter
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">قیمت نهایی:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white">۲۴۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'fi-gaming', title: 'سرور گیمینگ Low-Ping فنلاند', protocol: 'WireGuard / UDP', traffic: '۱۰۰ گیگابایت', duration: '۳۰ روزه', price: 240000, flag: '🇫🇮' })" class="w-full py-2.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرور گیمینگ Low-Ping فنلاند (۱۰۰ گیگ)', 240000)" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: UNLIMITED TRAFFIC -->
+        <div class="plan-card rounded-2xl bg-surface-container-low border border-primary-container/30 hover:border-primary-container transition-all cyber-card-glow flex flex-col justify-between overflow-hidden relative" data-category="unlimited">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-primary-fixed flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                پرفروش‌ترین ماه
+              </span>
+              <span class="text-on-surface-variant">🌐 ۲۴ms مولتی لوکیشن</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-1">سرویس نامحدود ترافیک طلایی</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              بدون نگرانی از تمام شدن ترافیک، ایده‌آل برای یوتیوب با کیفیت 4K، اینستاگرام و دانلود مستمر فایل.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>حجم ترافیک:</span>
+                <span class="text-primary-fixed font-bold font-mono">نـامـحـدود (Fair-Use)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>مدت اعتبار:</span>
+                <span class="text-white">۶۰ روزه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر همزمان:</span>
+                <span class="text-white font-bold">۳ کاربر</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>پروتکل:</span>
+                <span class="text-primary-fixed font-bold">VLESS + gRPC Turbo</span>
+              </div>
+            </div>
+
+            <div class="p-2 rounded bg-surface-container-highest/60 text-center text-[11px] font-mono text-primary-fixed mb-4">
+              پوشش ترافیک بدون سقف عددی
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">قیمت نهایی:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white">۳۹۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'gold-unlimited', title: 'سرویس نامحدود ترافیک طلایی', protocol: 'VLESS + gRPC', traffic: 'نامحدود Fair-Use', duration: '۶۰ روزه', price: 390000, flag: '🌐' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرویس نامحدود ترافیک طلایی (۶۰ روزه)', 390000)" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4: FRANCE DUO STREAM -->
+        <div class="plan-card rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/40 transition-all cyber-card-glow flex flex-col justify-between overflow-hidden relative" data-category="vip">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-secondary-fixed flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+                آماده استریم 4K
+              </span>
+              <span class="text-on-surface-variant">🇫🇷 ۲۶ms فرانسه</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-1">کانفیگ دونفره استریم فرانسه</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              مناسب تماشای فیلم در نتفلیکس، توییچ و یوتیوب با بافرینگ صفر و دو اتصال کاملاً مجزا.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>حجم ترافیک:</span>
+                <span class="text-white font-bold">۸۰ گیگابایت (GB)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>مدت اعتبار:</span>
+                <span class="text-white">۳۰ روزه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر همزمان:</span>
+                <span class="text-white font-bold">۲ کاربر</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>پروتکل:</span>
+                <span class="text-secondary font-bold">VLESS TLS CDN</span>
+              </div>
+            </div>
+
+            <div class="p-2 rounded bg-surface-container-highest/60 text-center text-[11px] font-mono text-secondary mb-4">
+              کیفیت بافر Zero Buffer
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">قیمت نهایی:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white">۱۹۵,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'fr-duo', title: 'کانفیگ دونفره استریم فرانسه', protocol: 'VLESS TLS', traffic: '۸۰ گیگابایت', duration: '۳۰ روزه', price: 195000, flag: '🇫🇷' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('کانفیگ دونفره فرانسه (۸۰ گیگ)', 195000)" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- MULTI DEVICE 1-CLICK CONNECTION GUIDE -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-16">
+      <div class="rounded-3xl bg-surface-container-low border border-white/5 p-6 md:p-12 relative overflow-hidden">
+        <div class="flex flex-col items-center text-center mb-10">
+          <span class="px-3 py-1 rounded-full bg-secondary-container/10 border border-secondary-container/30 text-xs font-mono text-secondary-container mb-3">
+            راهنمای اتصال تمام دستگاه‌ها
+          </span>
+          <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">
+            اتصال با یک کلیک بر روی گوشی، لپ‌تاپ و کنسول
+          </h2>
+          <p class="text-sm text-on-surface-variant max-w-xl">
+            تمامی کانفیگ‌های پاندا مارکت با فرمت استاندارد ساب‌اسکریپشن ارائه می‌شوند. کافیست لینک هوشمند خود را یکبار وارد کنید تا تمامی سرورها به شکل خودکار آپدیت شوند.
+          </p>
+          <div class="flex items-center gap-4 mt-3 text-xs font-mono text-primary-fixed">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              تنظیم خودکار Routing داخلی
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">check_circle</span>
+              دور زدن قطعی نت ملی
+            </span>
+          </div>
+        </div>
+
+        <!-- 6 Devices Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-primary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-primary-fixed">android</span>
+            <span class="font-bold text-sm text-white">اندروید (Android)</span>
+            <span class="text-xs text-on-surface-variant font-mono">v2rayNG / Hiddify</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-secondary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-secondary-container">phone_iphone</span>
+            <span class="font-bold text-sm text-white">آیفون (iOS)</span>
+            <span class="text-xs text-on-surface-variant font-mono">Streisand / Wings</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-primary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-primary-fixed">desktop_windows</span>
+            <span class="font-bold text-sm text-white">ویندوز (Windows)</span>
+            <span class="text-xs text-on-surface-variant font-mono">v2rayN / Nekoray</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-secondary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-secondary-container">laptop_mac</span>
+            <span class="font-bold text-sm text-white">مک (macOS)</span>
+            <span class="text-xs text-on-surface-variant font-mono">V2Box / FoXray</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-primary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-primary-fixed">terminal</span>
+            <span class="font-bold text-sm text-white">لینوکس (Linux)</span>
+            <span class="text-xs text-on-surface-variant font-mono">Sing-box Core</span>
+          </div>
+
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-white/5 text-center flex flex-col items-center justify-center gap-2 hover:border-secondary-container/30 transition-all">
+            <span class="material-symbols-outlined text-[32px] text-secondary-container">router</span>
+            <span class="font-bold text-sm text-white">مودم و روتر</span>
+            <span class="text-xs text-on-surface-variant font-mono">OpenWrt / Mikrotik</span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TELEGRAM PROMO BANNER -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-8 py-10">
+      <div class="p-6 md:p-10 rounded-3xl bg-gradient-to-l from-[#0088cc]/15 via-surface-container-low to-surface-container-low border border-[#0088cc]/30 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+        <div class="flex flex-col gap-2 text-center lg:text-right">
+          <div class="inline-flex items-center gap-2 self-center lg:self-start px-3 py-1 rounded-full bg-[#0088cc]/20 text-[#00daf3] text-xs font-mono">
+            <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            بیش از ۱۰,۰۰۰ مشترک فعال در خانواده پاندا مارکت
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-white">
+            به کانال تلگرام ما بپیوندید و کد تخفیف روزانه دریافت کنید
+          </h2>
+          <p class="text-sm text-on-surface-variant max-w-2xl leading-relaxed">
+            اطلاع‌رسانی سریع وضعیت نودها، تست رایگان ۲۴ ساعته قبل از خرید، قرعه‌کشی اکانت‌های نامحدود ماهانه و آخرین اخبار فیلترینگ و پروتکل‌ها در کانال تلگرام.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-4 shrink-0">
+          <div class="flex flex-col text-center sm:text-right font-mono text-sm">
+            <span class="text-white font-bold text-base">@PandaMarket_Net</span>
+            <span class="text-xs text-on-surface-variant">کانال رسمی و پشتیبانی</span>
+          </div>
+          <a href="https://t.me/PandaMarket_Net" target="_blank" class="px-6 py-3.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-sm flex items-center gap-2 shadow-lg transition-all active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">send</span>
+            <span>عضویت در تلگرام</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CART SLIDE-IN DRAWER -->
+  <div id="cartBackdrop" onclick="closeCartDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <div id="cartDrawer" class="fixed top-0 bottom-0 left-0 w-full max-w-md bg-surface-container-lowest border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <!-- Header -->
+    <div class="p-5 border-b border-white/5 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-fixed">shopping_cart</span>
+        <h3 class="font-bold text-white text-base">سبد خرید شما</h3>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-1 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-white">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <!-- Items List -->
+    <div class="p-5 flex-1 overflow-y-auto space-y-3" id="cartItemsList">
+      <!-- Items dynamically populated via main.js -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-5 border-t border-white/5 bg-surface-container-low/50 space-y-4">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">مبلغ کل قابل پرداخت:</span>
+        <span class="text-lg font-bold font-mono text-primary-fixed" id="cartDrawerTotal">۰ تومان</span>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <a href="checkout.html" class="w-full py-3 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-sm text-center shadow-lg transition-all">
+          ادامه و ثبت فاکتور (کارت به کارت)
+        </a>
+        <button onclick="checkoutCartViaTelegram()" class="w-full py-2.5 rounded-xl bg-[#0088cc]/20 hover:bg-[#0088cc]/30 text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1.5 border border-[#0088cc]/30 transition-all">
+          <span class="material-symbols-outlined text-[16px]">send</span>
+          <span>ثبت سفارش و ارسال به تلگرام</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-surface-container-lowest border-t border-white/5 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-8 flex flex-col gap-10">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <!-- Col 1 & 2: Brand -->
+        <div class="md:col-span-2 flex flex-col gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-primary-container/20 text-primary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">vpn_lock</span>
+            </div>
+            <span class="text-lg font-bold text-white">Panda Market | پاندا مارکت</span>
+          </div>
+
+          <p class="text-sm text-on-surface-variant max-w-lg leading-relaxed">
+            پلتفرم فوق پیشرفته توزیع کانفیگ‌های رمزنگاری‌شده و سوییچ‌های ابری اختصاصی با کمترین تاخیر (Latency) پکت و تضمین پایداری نظامی در سطح کشور.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 mt-2">
+            <div class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low rounded-lg text-xs font-mono text-primary-fixed border border-white/5">
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+              <span>۹۹.۹۸٪ پایداری شبکه و نودها</span>
+            </div>
+            <div class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-low rounded-lg text-xs font-mono text-secondary border border-white/5">
+              <span class="material-symbols-outlined text-[16px]">lock</span>
+              <span>رمزنگاری ۲۵۶ بیتی</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 3: Quick Links -->
+        <div class="flex flex-col gap-3">
+          <span class="text-sm font-bold text-white">دسترسی سریع</span>
+          <div class="flex flex-col gap-2 text-xs text-on-surface-variant">
+            <a href="products.html" class="hover:text-primary-fixed transition-colors">لیست پروتکل‌های VLESS & WireGuard</a>
+            <a href="servers.html" class="hover:text-primary-fixed transition-colors">پایش تله‌متری سرورها</a>
+            <a href="checkout.html" class="hover:text-primary-fixed transition-colors">پیش‌فاکتور رسمی و خرید</a>
+            <a href="about.html" class="hover:text-primary-fixed transition-colors">درباره زیرساخت شبکه پاندا</a>
+            <a href="contact.html" class="hover:text-primary-fixed transition-colors">ارسال تیکت رمزگذاری‌شده</a>
+          </div>
+        </div>
+
+        <!-- Col 4: Channels & Bots -->
+        <div class="flex flex-col gap-3">
+          <span class="text-sm font-bold text-white">ارتباط و کانال‌ها</span>
+          <div class="flex flex-col gap-2 text-xs text-on-surface-variant">
+            <a href="https://t.me/PandaMarket_Net" target="_blank" class="hover:text-secondary transition-colors">کانال تله‌متری تلگرام (@PandaMarket_Net)</a>
+            <a href="https://t.me/PandaMarket_Net" target="_blank" class="hover:text-secondary transition-colors">بات وضعیت لایو سرورها</a>
+            <a href="contact.html" class="hover:text-secondary transition-colors">مستندات اتصال و کلاینت‌ها</a>
+            <a href="admin.html" class="hover:text-primary-fixed transition-colors font-mono">ورود به پنل مدیریت سرورها</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright & Version -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 pt-6 border-t border-white/5 text-xs text-on-surface-variant font-mono">
+        <span>© ۲۰۲۴ پاندا مارکت. تمام حقوق پروتکل‌ها و زیرساخت‌ها محفوظ است.</span>
+        <div class="flex items-center gap-4">
+          <span>زبان رابط: فارسی (FA)</span>
+          <span class="text-primary-fixed">PANDA-CORE v4.19.8-PROD</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0b0e14]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2">
+    <nav class="flex items-center justify-around">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-primary-fixed text-xs font-bold">
+        <span class="material-symbols-outlined text-[20px]">home</span>
+        <span>خانه</span>
+      </a>
+      <a href="products.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">storefront</span>
+        <span>فروشگاه</span>
+      </a>
+      <a href="servers.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">dns</span>
+        <span>سرورها</span>
+      </a>
+      <a href="checkout.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+        <span>فاکتور</span>
+      </a>
+      <a href="contact.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">support_agent</span>
+        <span>پشتیبانی</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Shared JavaScript -->
+  <script src="assets/js/main.js"></script>
+  <script>
+    function filterPlans(category, btn) {
+      const buttons = document.querySelectorAll('.plan-filter-btn');
+      buttons.forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+        b.classList.add('text-on-surface-variant');
+      });
+      btn.classList.remove('text-on-surface-variant');
+      btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+
+      const cards = document.querySelectorAll('.plan-card');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (category === 'all' || cat === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

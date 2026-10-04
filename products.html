@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="fa">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panda Market | پنل‌ها و سرویس‌های اختصاصی Xray و WireGuard</title>
+  <meta name="description" content="خرید کانفیگ‌های اختصاصی VLESS Reality، سرورهای گیمینگ پینگ پایین فنلاند و ترافیک نامحدود استریم"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#10131a",
+            surface: "#10131a",
+            "surface-dim": "#10131a",
+            "surface-container-lowest": "#0b0e14",
+            "surface-container-low": "#191c22",
+            "surface-container": "#1d2026",
+            "surface-container-high": "#272a31",
+            "surface-container-highest": "#32353c",
+            primary: "#f4fff3",
+            "on-primary": "#00391f",
+            "primary-container": "#00ff9d",
+            "on-primary-container": "#007143",
+            "primary-fixed": "#56ffa8",
+            "primary-fixed-dim": "#00e38b",
+            secondary: "#bdf4ff",
+            "secondary-container": "#00e3fd",
+            "on-secondary-container": "#00616d",
+            "secondary-fixed": "#9cf0ff",
+            "secondary-fixed-dim": "#00daf3",
+            "on-surface": "#e0e2eb",
+            "on-surface-variant": "#b9cbbc",
+            error: "#ffb4ab",
+            "error-container": "#93000a",
+          },
+          fontFamily: {
+            sans: ["Vazirmatn", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            headline: ["Space Grotesk", "Vazirmatn", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body class="bg-background text-on-surface font-sans antialiased selection:bg-primary-container selection:text-on-primary">
+
+  <!-- TOP HEADER -->
+  <header class="fixed top-0 right-0 left-0 z-50 bg-[#0b0e14]/85 backdrop-blur-2xl border-b border-white/5">
+    <div class="h-20 max-w-[1440px] mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
+      
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-container/20 to-secondary-container/20 border border-primary-container/30 flex items-center justify-center text-primary-container shadow-md">
+            <span class="material-symbols-outlined text-[26px]">vpn_lock</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline font-bold text-xl tracking-tight text-white flex items-center gap-1.5">
+              Panda Market
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            </span>
+            <span class="text-[11px] font-mono text-primary-fixed">پاندا مارکت | شبکه غیرمتمرکز</span>
+          </div>
+        </a>
+
+        <nav class="hidden xl:flex items-center gap-1">
+          <a href="index.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">خانه</a>
+          <a href="servers.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">سرورهای من</a>
+          <a href="products.html" class="px-3.5 py-1.5 rounded-lg text-primary-fixed font-bold text-sm bg-surface-container-high/60">پنل‌ها و سرویس‌ها</a>
+          <a href="checkout.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">پیش‌فاکتور و پرداخت</a>
+          <a href="about.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">درباره ما</a>
+          <a href="contact.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">پشتیبانی و تیکت</a>
+          <a href="admin.html" class="px-3 py-1.5 rounded-lg text-[#00e3fd] hover:bg-[#00e3fd]/10 transition-colors text-xs font-mono border border-[#00e3fd]/30">پنل مدیریت</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-white transition-all flex items-center justify-center border border-white/5">
+          <span class="material-symbols-outlined text-[22px]">shopping_cart</span>
+          <span class="cart-badge absolute -top-1 -right-1 flex h-4 min-w-[1rem] px-1 items-center justify-center rounded-full bg-primary-container text-on-primary-container font-mono text-[11px] font-bold">۲</span>
+        </button>
+
+        <div class="hidden sm:flex items-center gap-3 bg-surface-container-low px-3.5 py-1.5 rounded-lg border border-white/5">
+          <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary-fixed border border-primary-container/30">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col text-right">
+            <span class="text-xs font-medium text-white">کاربر حرفه‌ای</span>
+            <div class="flex items-center gap-1">
+              <span class="font-mono text-xs font-bold text-primary-fixed">۲۵۰,۰۰۰</span>
+              <span class="text-[10px] text-on-surface-variant">تومان</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN SHOP CONTENT -->
+  <main class="w-full pt-24 pb-20 md:pb-12 bg-background">
+    <div class="max-w-[1440px] mx-auto w-full px-4 md:px-8 flex flex-col gap-8">
+      
+      <!-- HERO BANNER -->
+      <div class="p-8 rounded-3xl bg-surface-container-low border border-white/5 shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex flex-col gap-2 max-w-2xl text-center md:text-right">
+          <span class="px-3 py-1 rounded-full bg-primary-container/10 border border-primary-container/30 text-xs font-mono text-primary-fixed self-center md:self-start">
+            فروشگاه جامع کلاسترها و سرورهای هوشمند
+          </span>
+          <h1 class="text-2xl md:text-4xl font-extrabold text-white">
+            خرید کانفیگ‌های اختصاصی با پینگ زیر ۲۰ms و دور زدن نت ملی
+          </h1>
+          <p class="text-sm text-on-surface-variant leading-relaxed">
+            تمامی سرویس‌ها با گارانتی ۱۰۰٪ بازگشت وجه، آی‌پی ثابت تمیز و سازگار با سیستم‌عامل‌های اندروید، آیفون، ویندوز و مکینتاش ارائه می‌شوند.
+          </p>
+        </div>
+
+        <!-- Duration Switcher Discounts -->
+        <div class="flex flex-col gap-2 bg-surface-container-lowest p-4 rounded-2xl border border-white/5 shrink-0 text-center font-mono">
+          <span class="text-xs text-on-surface-variant">تخفیف ویژه دوره‌های بلندمدت:</span>
+          <div class="flex items-center gap-2">
+            <button class="duration-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-primary-container text-on-primary-container" onclick="setPlanDuration(1, this)">۱ ماهه (عادی)</button>
+            <button class="duration-btn px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-white bg-surface-container" onclick="setPlanDuration(3, this)">۳ ماهه (۱۵٪ تخفیف)</button>
+            <button class="duration-btn px-3 py-1.5 rounded-lg text-xs text-on-surface-variant hover:text-white bg-surface-container" onclick="setPlanDuration(6, this)">۶ ماهه (۲۵٪ تخفیف)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER & SEARCH BAR -->
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-surface-container-lowest p-3 rounded-2xl border border-white/5">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0" id="shopFilters">
+          <button class="shop-filter-btn px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-mono text-xs font-bold transition-all" onclick="filterShop('all', this)">
+            همه سرویس‌ها (۶)
+          </button>
+          <button class="shop-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterShop('vip', this)">
+            اختصاصی VIP
+          </button>
+          <button class="shop-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterShop('gaming', this)">
+            گیمینگ Low-Ping
+          </button>
+          <button class="shop-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterShop('unlimited', this)">
+            ترافیک نامحدود
+          </button>
+          <button class="shop-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterShop('trade', this)">
+            آی‌پی ثابت ترید
+          </button>
+        </div>
+
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="shopSearchInput" oninput="searchShop(this.value)" placeholder="جستجو بر اساس کشور، پروتکل یا حجم..." class="w-full bg-surface-container-high text-white placeholder:text-on-surface-variant text-xs rounded-xl pr-10 pl-4 py-2.5 outline-none focus:ring-1 focus:ring-primary-container transition-all"/>
+          <span class="material-symbols-outlined absolute right-3 top-2.5 text-[18px] text-on-surface-variant">search</span>
+        </div>
+      </div>
+
+      <!-- PRODUCTS GRID (6 Rich Products) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="productsGrid">
+        
+        <!-- PRODUCT 1: GERMANY VIP -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/40 transition-all cyber-card-glow flex flex-col justify-between overflow-hidden" data-category="vip" data-base-price="185000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-primary-fixed flex items-center gap-1 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                آماده تحویل آنی
+              </span>
+              <span class="text-on-surface-variant">🇩🇪 ۱۸ms فرانکفورت (Hetzner)</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">کانفیگ اختصاصی VIP آلمان</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              سرعت دانلود پایدار بدون افت شبانه، پروتکل امنیتی Reality ضدشناسایی، مناسب مصرف روزمره و شبکه‌های اجتماعی.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-white font-bold">۶۰ گیگابایت ماهانه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر مجاز:</span>
+                <span class="text-primary-fixed font-bold">۲ کاربر همزمان</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل رمزنگاری:</span>
+                <span class="text-secondary font-bold">VLESS Reality TCP</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>بای‌پس فیلترینگ:</span>
+                <span class="text-primary-fixed">سازگار با تمامی اپراتورها</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۱۸۵,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'de-vip', title: 'کانفیگ اختصاصی VIP آلمان', protocol: 'Reality + VLESS', traffic: '۶۰ گیگابایت', duration: activeDurationLabel, price: getCalculatedPrice(185000), flag: '🇩🇪' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('کانفیگ اختصاصی VIP آلمان', getCalculatedPrice(185000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 2: FINLAND GAMING -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-secondary-container/30 hover:border-secondary-container transition-all cyber-card-glow-cyan flex flex-col justify-between overflow-hidden relative" data-category="gaming" data-base-price="240000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-secondary-container flex items-center gap-1 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+                مخصوص بازی آنلاین
+              </span>
+              <span class="text-on-surface-variant">🇫🇮 ۲۲ms هلسینکی (UDP)</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">سرور گیمینگ Low-Ping فنلاند</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              کانال اختصاصی بدون پکت‌لاس با فوروارد مستقیم بسته‌های UDP ویژه Warzone، Rainbow Six، Dota 2 و استیم.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-white font-bold">۱۰۰ گیگابایت ماهانه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر مجاز:</span>
+                <span class="text-secondary-container font-bold">۲ کاربر همزمان</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل:</span>
+                <span class="text-secondary font-bold">WireGuard Fast UDP</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>پایداری پکت:</span>
+                <span class="text-secondary-container">Zero Jitter Drop</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۲۴۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'fi-gaming', title: 'سرور گیمینگ Low-Ping فنلاند', protocol: 'WireGuard / UDP', traffic: '۱۰۰ گیگابایت', duration: activeDurationLabel, price: getCalculatedPrice(240000), flag: '🇫🇮' })" class="w-full py-2.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرور گیمینگ Low-Ping فنلاند', getCalculatedPrice(240000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 3: UNLIMITED GOLD -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-primary-container/30 hover:border-primary-container transition-all cyber-card-glow flex flex-col justify-between overflow-hidden" data-category="unlimited" data-base-price="390000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-primary-fixed flex items-center gap-1 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                پرفروش‌ترین ماه
+              </span>
+              <span class="text-on-surface-variant">🌐 ۲۴ms مولتی لوکیشن</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">سرویس نامحدود ترافیک طلایی</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              بدون سقف ترافیک مصرفی، ایده‌آل برای استریم با کیفیت 4K، یوتیوب بدون افت فریم و دانلودهای حجیم شبانه‌روزی.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-primary-fixed font-bold font-mono">نـامـحـدود (Fair-Use)</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر مجاز:</span>
+                <span class="text-white font-bold">۳ کاربر همزمان</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل:</span>
+                <span class="text-primary-fixed font-bold">VLESS + gRPC Turbo</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>پورت اختصاصی:</span>
+                <span class="text-primary-fixed">Multi-CDN Edge</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۳۹۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'gold-unlimited', title: 'سرویس نامحدود ترافیک طلایی', protocol: 'VLESS + gRPC', traffic: 'نامحدود Fair-Use', duration: activeDurationLabel, price: getCalculatedPrice(390000), flag: '🌐' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرویس نامحدود ترافیک طلایی', getCalculatedPrice(390000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 4: FIXED IP TRADE (NETHERLANDS) -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/40 transition-all cyber-card-glow flex flex-col justify-between overflow-hidden" data-category="trade" data-base-price="290000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-primary-fixed flex items-center gap-1 font-bold">
+                <span class="material-symbols-outlined text-[16px]">lock</span>
+                آی‌پی ثابت و تمیز
+              </span>
+              <span class="text-on-surface-variant">🇳🇱 ۱۵ms هلند (آمستردام)</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">سرور آی‌پی ثابت ترید هلند</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              تضمین آی‌پی استاتیک مسکونی/دیتاسنتری ویژه صرافی‌های خارجی نظیر بایننس، کوکوین، بای‌بیت و متامسک بدون مسدودی.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-white font-bold">۷۰ گیگابایت ماهانه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>وضعیت IP:</span>
+                <span class="text-primary-fixed font-bold">Static Dedicated IP</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل:</span>
+                <span class="text-secondary font-bold">VLESS TLS + Reality</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>ضمانت احراز هویت:</span>
+                <span class="text-primary-fixed">تایید سلامت در Whoer / IPinfo</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۲۹۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'trade-nl', title: 'سرور آی‌پی ثابت ترید هلند', protocol: 'VLESS Reality Static', traffic: '۷۰ گیگابایت', duration: activeDurationLabel, price: getCalculatedPrice(290000), flag: '🇳🇱' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرور آی‌پی ثابت ترید هلند', getCalculatedPrice(290000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 5: FRANCE STREAM DUO -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-white/5 hover:border-primary-container/40 transition-all cyber-card-glow flex flex-col justify-between overflow-hidden" data-category="vip" data-base-price="195000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-secondary-fixed flex items-center gap-1 font-bold">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
+                بهینه استریم 4K
+              </span>
+              <span class="text-on-surface-variant">🇫🇷 ۲۶ms فرانسه (OVH)</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">کانفیگ دونفره استریم فرانسه</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              پوشش کامل نتفلیکس، اسپاتیفای و توییچ بدون بافرینگ با دو کانکشن مستقل و نامحدود در تعداد دستگاه‌های ذخیره‌شده.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-white font-bold">۸۰ گیگابایت ماهانه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر مجاز:</span>
+                <span class="text-white font-bold">۲ کاربر همزمان</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل:</span>
+                <span class="text-secondary font-bold">VLESS TLS CDN</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>تست پینگ:</span>
+                <span class="text-primary-fixed">Ultra Low Buffer</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۱۹۵,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'fr-duo', title: 'کانفیگ دونفره استریم فرانسه', protocol: 'VLESS TLS', traffic: '۸۰ گیگابایت', duration: activeDurationLabel, price: getCalculatedPrice(195000), flag: '🇫🇷' })" class="w-full py-2.5 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('کانفیگ دونفره استریم فرانسه', getCalculatedPrice(195000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 6: TURKEY & DUBAI LOW LATENCY -->
+        <div class="product-item rounded-2xl bg-surface-container-low border border-secondary-container/30 hover:border-secondary-container transition-all cyber-card-glow-cyan flex flex-col justify-between overflow-hidden" data-category="gaming" data-base-price="210000">
+          <div class="p-6">
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="text-secondary-container flex items-center gap-1 font-bold">
+                <span class="material-symbols-outlined text-[16px]">bolt</span>
+                کمترین فاصله جغرافیایی
+              </span>
+              <span class="text-on-surface-variant">🇹🇷 ۱۲ms ترکیه (استانبول)</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-white mb-2">سرور ترکیه توربو پینگ ۱۲ms</h3>
+            <p class="text-xs text-on-surface-variant mb-6 leading-relaxed">
+              نزدیک‌ترین لوکیشن دیتاسنتری به ایران با کوتاه‌ترین مسیر فیبر نوری، فوق‌العاده سریع برای وب‌گردی آنی و بازی‌های موبایلی پینگ‌پایین.
+            </p>
+
+            <div class="space-y-2.5 text-xs text-on-surface-variant font-mono mb-6">
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>سهمیه ترافیک:</span>
+                <span class="text-white font-bold">۷۵ گیگابایت ماهانه</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>تعداد کاربر:</span>
+                <span class="text-secondary-container font-bold">۲ کاربر همزمان</span>
+              </div>
+              <div class="flex items-center justify-between pb-2 border-b border-white/5">
+                <span>پروتکل:</span>
+                <span class="text-secondary font-bold">TUIC + Reality</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span>مسیر ارتباطی:</span>
+                <span class="text-secondary-container font-mono">Bypass Direct Hop</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 pt-0">
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-xs text-on-surface-variant">بهای نهایی دوره:</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold font-mono text-white product-price">۲۱۰,۰۰۰</span>
+                <span class="text-xs text-on-surface-variant">تومان</span>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <button onclick="addToCart({ id: 'tr-turbo', title: 'سرور ترکیه توربو پینگ ۱۲ms', protocol: 'TUIC + Reality', traffic: '۷۵ گیگابایت', duration: activeDurationLabel, price: getCalculatedPrice(210000), flag: '🇹🇷' })" class="w-full py-2.5 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md">
+                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                <span>افزودن به سبد خرید</span>
+              </button>
+              <button onclick="orderViaTelegram('سرور ترکیه توربو پینگ ۱۲ms', getCalculatedPrice(210000))" class="w-full py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1 border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">send</span>
+                <span>سفارش سریع در تلگرام</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CART SLIDE-IN DRAWER -->
+  <div id="cartBackdrop" onclick="closeCartDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <div id="cartDrawer" class="fixed top-0 bottom-0 left-0 w-full max-w-md bg-surface-container-lowest border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <div class="p-5 border-b border-white/5 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-fixed">shopping_cart</span>
+        <h3 class="font-bold text-white text-base">سبد خرید شما</h3>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-1 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-white">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+    <div class="p-5 flex-1 overflow-y-auto space-y-3" id="cartItemsList"></div>
+    <div class="p-5 border-t border-white/5 bg-surface-container-low/50 space-y-4">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">مبلغ کل قابل پرداخت:</span>
+        <span class="text-lg font-bold font-mono text-primary-fixed" id="cartDrawerTotal">۰ تومان</span>
+      </div>
+      <div class="flex flex-col gap-2">
+        <a href="checkout.html" class="w-full py-3 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-sm text-center shadow-lg transition-all">
+          ادامه و ثبت فاکتور (کارت به کارت)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-surface-container-lowest border-t border-white/5 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-8 flex flex-col gap-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant font-mono">
+        <span>© ۲۰۲۴ پاندا مارکت. تمام حقوق پروتکل‌ها و زیرساخت‌ها محفوظ است.</span>
+        <div class="flex items-center gap-4">
+          <span>زبان رابط: فارسی (FA)</span>
+          <span class="text-primary-fixed">PANDA-CORE v4.19.8-PROD</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0b0e14]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2">
+    <nav class="flex items-center justify-around">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">home</span>
+        <span>خانه</span>
+      </a>
+      <a href="products.html" class="flex flex-col items-center gap-1 text-primary-fixed text-xs font-bold">
+        <span class="material-symbols-outlined text-[20px]">storefront</span>
+        <span>فروشگاه</span>
+      </a>
+      <a href="servers.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">dns</span>
+        <span>سرورها</span>
+      </a>
+      <a href="checkout.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+        <span>فاکتور</span>
+      </a>
+      <a href="contact.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">support_agent</span>
+        <span>پشتیبانی</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    let activeDurationMonths = 1;
+    let activeDurationLabel = '۳۰ روزه';
+
+    function setPlanDuration(months, btn) {
+      activeDurationMonths = months;
+      activeDurationLabel = months === 1 ? '۳۰ روزه' : months === 3 ? '۹۰ روزه (۳ ماهه)' : '۱۸۰ روزه (۶ ماهه)';
+
+      document.querySelectorAll('.duration-btn').forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+
+      // Update all prices across products
+      document.querySelectorAll('.product-item').forEach(card => {
+        const base = parseInt(card.getAttribute('data-base-price'), 10);
+        const finalPrice = getCalculatedPrice(base);
+        card.querySelector('.product-price').textContent = finalPrice.toLocaleString('fa-IR');
+      });
+
+      showToast(`دوره سفارش به ${activeDurationLabel} تغییر یافت.`);
+    }
+
+    function getCalculatedPrice(basePrice) {
+      if (activeDurationMonths === 1) return basePrice;
+      if (activeDurationMonths === 3) return Math.round(basePrice * 3 * 0.85); // 15% discount
+      if (activeDurationMonths === 6) return Math.round(basePrice * 6 * 0.75); // 25% discount
+      return basePrice;
+    }
+
+    function filterShop(category, btn) {
+      document.querySelectorAll('.shop-filter-btn').forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+
+      const cards = document.querySelectorAll('.product-item');
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (category === 'all' || cat === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function searchShop(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('.product-item');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

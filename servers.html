@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html class="dark" dir="rtl" lang="fa">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panda Market | مدیریت سرورها و تونل‌های من</title>
+  <meta name="description" content="نظارت بلادرنگ بر کانکشن‌های رمزنگاری شده VLESS، WireGuard و مسیریاب‌های اختصاصی با تاخیر میلی‌ثانیه‌ای و مدیریت ترافیک مصرفی"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#10131a",
+            surface: "#10131a",
+            "surface-dim": "#10131a",
+            "surface-container-lowest": "#0b0e14",
+            "surface-container-low": "#191c22",
+            "surface-container": "#1d2026",
+            "surface-container-high": "#272a31",
+            "surface-container-highest": "#32353c",
+            primary: "#f4fff3",
+            "on-primary": "#00391f",
+            "primary-container": "#00ff9d",
+            "on-primary-container": "#007143",
+            "primary-fixed": "#56ffa8",
+            "primary-fixed-dim": "#00e38b",
+            secondary: "#bdf4ff",
+            "secondary-container": "#00e3fd",
+            "on-secondary-container": "#00616d",
+            "secondary-fixed": "#9cf0ff",
+            "secondary-fixed-dim": "#00daf3",
+            "on-surface": "#e0e2eb",
+            "on-surface-variant": "#b9cbbc",
+            error: "#ffb4ab",
+            "error-container": "#93000a",
+          },
+          fontFamily: {
+            sans: ["Vazirmatn", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+            headline: ["Space Grotesk", "Vazirmatn", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+
+<body class="bg-background text-on-surface font-sans antialiased selection:bg-primary-container selection:text-on-primary">
+
+  <!-- TOP HEADER -->
+  <header class="fixed top-0 right-0 left-0 z-50 bg-[#0b0e14]/85 backdrop-blur-2xl border-b border-white/5">
+    <div class="h-20 max-w-[1440px] mx-auto px-4 md:px-8 flex items-center justify-between gap-4">
+      
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-container/20 to-secondary-container/20 border border-primary-container/30 flex items-center justify-center text-primary-container shadow-md">
+            <span class="material-symbols-outlined text-[26px]">vpn_lock</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-headline font-bold text-xl tracking-tight text-white flex items-center gap-1.5">
+              Panda Market
+              <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            </span>
+            <span class="text-[11px] font-mono text-primary-fixed">پاندا مارکت | شبکه غیرمتمرکز</span>
+          </div>
+        </a>
+
+        <nav class="hidden xl:flex items-center gap-1">
+          <a href="index.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">خانه</a>
+          <a href="servers.html" class="px-3.5 py-1.5 rounded-lg text-primary-fixed font-bold text-sm bg-surface-container-high/60">سرورهای من</a>
+          <a href="products.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">پنل‌ها و سرویس‌ها</a>
+          <a href="checkout.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">پیش‌فاکتور و پرداخت</a>
+          <a href="about.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">درباره ما</a>
+          <a href="contact.html" class="px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-white transition-colors text-sm">پشتیبانی و تیکت</a>
+          <a href="admin.html" class="px-3 py-1.5 rounded-lg text-[#00e3fd] hover:bg-[#00e3fd]/10 transition-colors text-xs font-mono border border-[#00e3fd]/30">پنل مدیریت</a>
+        </nav>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="openCartDrawer()" class="relative p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-white transition-all flex items-center justify-center border border-white/5">
+          <span class="material-symbols-outlined text-[22px]">shopping_cart</span>
+          <span class="cart-badge absolute -top-1 -right-1 flex h-4 min-w-[1rem] px-1 items-center justify-center rounded-full bg-primary-container text-on-primary-container font-mono text-[11px] font-bold">۲</span>
+        </button>
+
+        <button onclick="showToast('سیستم تله‌متری با نودهای آلمان و فنلاند همگام شد.', 'info')" class="relative p-2.5 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high hover:text-white transition-all flex items-center justify-center border border-white/5">
+          <span class="material-symbols-outlined text-[22px]">notifications</span>
+          <span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-secondary-container animate-pulse"></span>
+        </button>
+
+        <div class="hidden sm:flex items-center gap-3 bg-surface-container-low px-3.5 py-1.5 rounded-lg border border-white/5">
+          <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary-fixed border border-primary-container/30">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col text-right">
+            <span class="text-xs font-medium text-white">کاربر حرفه‌ای</span>
+            <div class="flex items-center gap-1">
+              <span class="font-mono text-xs font-bold text-primary-fixed">۲۵۰,۰۰۰</span>
+              <span class="text-[10px] text-on-surface-variant">تومان</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN VIEW -->
+  <main class="w-full pt-20 pb-20 md:pb-12 bg-background">
+    <div class="max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8">
+      
+      <!-- TOP TELEMETRY HUD BAR -->
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 rounded-2xl bg-surface-container-low border border-white/5 shadow-xl relative overflow-hidden">
+        <div class="absolute -right-16 -top-16 w-52 h-52 rounded-full bg-primary-container/5 blur-3xl pointer-events-none"></div>
+        
+        <div class="flex items-center gap-4 z-10">
+          <div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-fixed border border-primary-container/20">
+            <span class="material-symbols-outlined text-[28px]">radar</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl md:text-2xl font-bold text-white">مدیریت سرورها و تونل‌های من</h1>
+              <span class="px-2 py-0.5 rounded-full bg-primary-container/15 text-primary-fixed font-mono text-xs flex items-center gap-1.5 border border-primary-container/30">
+                <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                پایدار و متصل
+              </span>
+            </div>
+            <span class="text-xs text-on-surface-variant font-mono mt-0.5">NODE_MATRIX_CORE // V4-SYNAPSE-ONLINE</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 w-full md:w-auto justify-end z-10">
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container text-on-surface-variant font-mono text-xs border border-white/5">
+            <span class="material-symbols-outlined text-[16px] text-secondary-container">sync</span>
+            <span>همگام‌سازی خودکار: ۱۲ ثانیه پیش</span>
+          </div>
+
+          <button onclick="refreshNodeTelemetry(this)" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white transition-all text-xs font-mono border border-white/5 shadow-sm active:scale-95">
+            <span class="material-symbols-outlined text-[18px] text-primary-fixed" id="syncIcon">refresh</span>
+            <span>بروزرسانی وضعیت نودها</span>
+          </button>
+
+          <a href="products.html" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs shadow-md transition-all">
+            <span class="material-symbols-outlined text-[18px]">add_circle</span>
+            <span>سرویس جدید</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 TELEMETRY COUNTER TILES -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Tile 1 -->
+        <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col justify-between hover:border-primary-container/30 transition-all cyber-card-glow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-on-surface-variant font-medium">اشتراک‌های فعال</span>
+            <div class="p-2 rounded-lg bg-primary-container/10 text-primary-fixed">
+              <span class="material-symbols-outlined text-[20px]">cloud_done</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2 mt-4">
+            <span class="text-3xl font-extrabold font-mono text-white">۳</span>
+            <span class="text-xs text-on-surface-variant">از ۴ سرویس خریداری‌شده</span>
+          </div>
+          <div class="mt-3 flex items-center gap-2 text-primary-fixed text-xs font-mono">
+            <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+            <span>۱ کانکشن در حالت انقضا</span>
+          </div>
+        </div>
+
+        <!-- Tile 2 -->
+        <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col justify-between hover:border-secondary-container/30 transition-all cyber-card-glow-cyan">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-on-surface-variant font-medium">ترافیک باقیمانده کل</span>
+            <div class="p-2 rounded-lg bg-secondary-container/10 text-secondary-container">
+              <span class="material-symbols-outlined text-[20px]">data_usage</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2 mt-4">
+            <span class="text-3xl font-extrabold font-mono text-secondary-container">۱۱۴.۲</span>
+            <span class="text-xs text-on-surface-variant font-mono">گیگابایت از ۱۶۰ GB</span>
+          </div>
+          <div class="w-full bg-surface-container-highest rounded-full h-2 mt-3 overflow-hidden">
+            <div class="bg-gradient-to-r from-secondary-fixed to-secondary-container h-full rounded-full" style="width: 71.3%;"></div>
+          </div>
+        </div>
+
+        <!-- Tile 3 -->
+        <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col justify-between hover:border-primary-container/30 transition-all cyber-card-glow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-on-surface-variant font-medium">میانگین اعتبار باقیمانده</span>
+            <div class="p-2 rounded-lg bg-surface-container-high text-primary-fixed">
+              <span class="material-symbols-outlined text-[20px]">timer</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2 mt-4">
+            <span class="text-3xl font-extrabold font-mono text-white">۲۳</span>
+            <span class="text-xs text-on-surface-variant">روز تا پایان چرخه</span>
+          </div>
+          <div class="mt-3 flex items-center gap-1.5 text-on-surface-variant text-xs font-mono">
+            <span class="material-symbols-outlined text-[15px] text-primary-fixed">schedule</span>
+            <span>نزدیک‌ترین انقضا: فرانکفورت (۱۱ روز)</span>
+          </div>
+        </div>
+
+        <!-- Tile 4 -->
+        <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col justify-between hover:border-primary-container/30 transition-all cyber-card-glow">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-on-surface-variant font-medium">تأخیر پکت‌ها (Telemetry Latency)</span>
+            <div class="p-2 rounded-lg bg-primary-container/10 text-primary-container">
+              <span class="material-symbols-outlined text-[20px]">speed</span>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2 mt-4">
+            <span class="text-3xl font-extrabold font-mono text-primary-fixed">۱۹</span>
+            <span class="text-xs text-on-surface-variant font-mono">ms (بهینه ملی / TCX)</span>
+          </div>
+          <div class="mt-3 flex items-center gap-1 text-primary-fixed text-xs font-mono">
+            <span class="material-symbols-outlined text-[15px]">bolt</span>
+            <span>مسیر بدون پکت‌لاس (Clean Zero-Hop)</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FILTERING & SEARCH CONTROLS -->
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 bg-surface-container-lowest p-3 rounded-2xl border border-white/5">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0" id="filterTabs">
+          <button class="server-filter-btn px-4 py-2 rounded-xl bg-primary-container text-on-primary-container font-mono text-xs font-bold transition-all" onclick="filterServers('all', this)">
+            همه سرورها (۴)
+          </button>
+          <button class="server-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterServers('active', this)">
+            سرویس‌های متصل (۳)
+          </button>
+          <button class="server-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterServers('expiring', this)">
+            نزدیک انقضا (۱)
+          </button>
+          <button class="server-filter-btn px-4 py-2 rounded-xl bg-surface-container text-on-surface-variant hover:text-white font-mono text-xs transition-all" onclick="filterServers('expired', this)">
+            منقضی‌شده (۱)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="relative flex-1 sm:w-80">
+            <input type="text" id="searchTunnels" oninput="searchServers(this.value)" placeholder="جستجو بر اساس نام نود، لوکیشن، پروتکل..." class="w-full bg-surface-container-high text-white placeholder:text-on-surface-variant text-xs rounded-xl pr-10 pl-4 py-2.5 outline-none focus:ring-1 focus:ring-primary-container transition-all"/>
+            <span class="material-symbols-outlined absolute right-3 top-2.5 text-[18px] text-on-surface-variant">search</span>
+          </div>
+          <button class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-white transition-all flex items-center gap-1.5 text-xs font-mono border border-white/5">
+            <span class="material-symbols-outlined text-[16px]">tune</span>
+            <span class="hidden sm:inline">مرتب‌سازی</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- SERVER CARDS LIST -->
+      <div class="flex flex-col gap-6" id="serverContainer">
+        
+        <!-- CARD 1: GERMANY VIP NODE (ACTIVE) -->
+        <div class="server-card group p-6 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col gap-5 transition-all hover:bg-surface-container relative overflow-hidden laser-border-top" data-status="active" data-expiring="true">
+          
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center font-mono font-bold text-base text-primary-fixed border border-primary-container/20 shadow-inner">
+                DE
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-base md:text-lg font-bold text-white">آلمان VIP | Hetzner Cloud DCX</h3>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary-container font-mono text-xs">VLESS + Reality TCP</span>
+                  <span class="px-2 py-0.5 rounded bg-primary-container/15 text-primary-fixed font-mono text-xs flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                    ● 18ms
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 text-on-surface-variant text-xs font-mono mt-1">
+                  <span>شناسه: #PND-DE-9941</span>
+                  <span>•</span>
+                  <span>فرانکفورت اختصاصی - پورت 443</span>
+                  <span>•</span>
+                  <span class="text-primary-fixed font-bold">۲ کاربر همزمان مجاز</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end lg:self-auto">
+              <button onclick="simulatePing(this)" class="px-3 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-primary-fixed">network_ping</span>
+                <span>تست پینگ زنده</span>
+              </button>
+              <a href="checkout.html" class="px-4 py-2 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs transition-all shadow-md">
+                تمدید سرویس
+              </a>
+            </div>
+          </div>
+
+          <!-- Progress telemetry bar -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-surface-container-lowest border border-white/5">
+            <div class="flex flex-col gap-1.5 md:col-span-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-on-surface-variant">مصرف پهنای باند ماه جاری:</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-white font-bold">۴۲ GB مصرف‌شده</span>
+                  <span class="text-on-surface-variant">/</span>
+                  <span class="text-primary-fixed font-bold">۱۸ GB باقیمانده</span>
+                  <span class="text-on-surface-variant">(مجموع: ۶۰ گیگ)</span>
+                </div>
+              </div>
+              <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden mt-1">
+                <div class="bg-gradient-to-r from-secondary-container via-primary-container to-primary-fixed h-full rounded-full transition-all duration-700" style="width: 70%;"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between md:justify-end gap-6 font-mono text-left">
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">اعتبار مانده</span>
+                <span class="text-sm font-bold text-white">۱۱ روز و ۱۴ ساعت</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">پایان چرخه</span>
+                <span class="text-xs text-on-surface-variant">2024-11-28</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connection snippet -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div class="relative flex-1 bg-surface-container-lowest rounded-xl p-2.5 flex items-center overflow-hidden border border-white/5">
+              <span class="font-mono text-xs text-on-surface-variant truncate px-2 select-all text-left w-full" dir="ltr" id="config-de">vless://9e14a1c0-29b3-4f93-8b77-f2038e9a18d1@fra.pandanet.live:443?encryption=none&security=reality&sni=speedtest.net&fp=chrome&pbk=8mF...#PandaDE-VIP</span>
+            </div>
+            <div class="flex items-center gap-2 justify-end">
+              <button onclick="copyToClipboard(document.getElementById('config-de').innerText, this)" class="px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary-fixed text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                <span>کپی لینک اتصال</span>
+              </button>
+              <button onclick="openQrModal('کانفیگ VIP آلمان (Hetzner DCX)', document.getElementById('config-de').innerText)" class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+                <span>بارکد QR</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CARD 2: FINLAND GAMING NODE (ACTIVE) -->
+        <div class="server-card group p-6 rounded-2xl bg-surface-container-low border border-secondary-container/20 shadow-md flex flex-col gap-5 transition-all hover:bg-surface-container relative overflow-hidden laser-border-top-cyan" data-status="active">
+          
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center font-mono font-bold text-base text-secondary-container border border-secondary-container/20 shadow-inner">
+                FI
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-base md:text-lg font-bold text-white">فنلاند گیمینگ | هلسینکی بدون تحریم UDP</h3>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-high text-secondary-fixed font-mono text-xs">WireGuard Dedicated</span>
+                  <span class="px-2 py-0.5 rounded bg-primary-container/15 text-primary-fixed font-mono text-xs flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                    ● 22ms
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 text-on-surface-variant text-xs font-mono mt-1">
+                  <span>شناسه: #PND-FI-5502</span>
+                  <span>•</span>
+                  <span>تونل اختصاصی گیمینگ بدون قطعی DNS</span>
+                  <span>•</span>
+                  <span class="text-secondary-container font-bold">ترافیک نامتقارن بهینه</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end lg:self-auto">
+              <button onclick="simulatePing(this)" class="px-3 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-secondary-container">network_ping</span>
+                <span>تست پینگ زنده</span>
+              </button>
+              <a href="checkout.html" class="px-4 py-2 rounded-xl bg-secondary-container hover:bg-secondary-fixed text-on-secondary-container font-bold text-xs transition-all shadow-md">
+                تمدید سرویس
+              </a>
+            </div>
+          </div>
+
+          <!-- Progress telemetry bar -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-surface-container-lowest border border-white/5">
+            <div class="flex flex-col gap-1.5 md:col-span-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-on-surface-variant">مصرف پهنای باند ماه جاری:</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-white font-bold">۲۵ GB مصرف‌شده</span>
+                  <span class="text-on-surface-variant">/</span>
+                  <span class="text-secondary-container font-bold">۷۵ GB باقیمانده</span>
+                  <span class="text-on-surface-variant">(مجموع: ۱۰۰ گیگ)</span>
+                </div>
+              </div>
+              <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden mt-1">
+                <div class="bg-gradient-to-r from-secondary-fixed-dim to-secondary-container h-full rounded-full transition-all duration-700" style="width: 25%;"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between md:justify-end gap-6 font-mono text-left">
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">اعتبار مانده</span>
+                <span class="text-sm font-bold text-white">۲۶ روز کامل</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">پایان چرخه</span>
+                <span class="text-xs text-on-surface-variant">2024-12-14</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connection snippet -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div class="relative flex-1 bg-surface-container-lowest rounded-xl p-2.5 flex items-center overflow-hidden border border-white/5">
+              <span class="font-mono text-xs text-on-surface-variant truncate px-2 select-all text-left w-full" dir="ltr" id="config-fi">https://sub.pandanet.live/api/v1/client/subscribe?token=4d5e1849a90cdb681424bb9</span>
+            </div>
+            <div class="flex items-center gap-2 justify-end">
+              <button onclick="copyToClipboard(document.getElementById('config-fi').innerText, this)" class="px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-secondary-container text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">link</span>
+                <span>کپی Sub URL</span>
+              </button>
+              <button onclick="downloadConfigFile('panda-finland-gaming.conf')" class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">file_download</span>
+                <span>دانلود .conf وایرگارد</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CARD 3: NETHERLANDS STREAM (ACTIVE) -->
+        <div class="server-card group p-6 rounded-2xl bg-surface-container-low border border-white/5 shadow-md flex flex-col gap-5 transition-all hover:bg-surface-container relative overflow-hidden laser-border-top" data-status="active">
+          
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center font-mono font-bold text-base text-primary-fixed border border-primary-container/20 shadow-inner">
+                NL
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-base md:text-lg font-bold text-white">هلند استریم | آمستردام 10G Peering</h3>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-high text-primary-fixed font-mono text-xs">VLESS + gRPC</span>
+                  <span class="px-2 py-0.5 rounded bg-primary-container/15 text-primary-fixed font-mono text-xs flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse"></span>
+                    ● 14ms
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 text-on-surface-variant text-xs font-mono mt-1">
+                  <span>شناسه: #PND-NL-3301</span>
+                  <span>•</span>
+                  <span>مسیر بهینه بدون بافر یوتیوب و اینستاگرام</span>
+                  <span>•</span>
+                  <span class="text-primary-fixed font-bold">۲ کاربر همزمان مجاز</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end lg:self-auto">
+              <button onclick="simulatePing(this)" class="px-3 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px] text-primary-fixed">network_ping</span>
+                <span>تست پینگ زنده</span>
+              </button>
+              <a href="checkout.html" class="px-4 py-2 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-xs transition-all shadow-md">
+                تمدید سرویس
+              </a>
+            </div>
+          </div>
+
+          <!-- Progress telemetry bar -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 rounded-xl bg-surface-container-lowest border border-white/5">
+            <div class="flex flex-col gap-1.5 md:col-span-2">
+              <div class="flex items-center justify-between text-xs font-mono">
+                <span class="text-on-surface-variant">مصرف پهنای باند ماه جاری:</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-white font-bold">۲۲ GB مصرف‌شده</span>
+                  <span class="text-on-surface-variant">/</span>
+                  <span class="text-primary-fixed font-bold">۵۸ GB باقیمانده</span>
+                  <span class="text-on-surface-variant">(مجموع: ۸۰ گیگ)</span>
+                </div>
+              </div>
+              <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden mt-1">
+                <div class="bg-gradient-to-r from-secondary-container via-primary-container to-primary-fixed h-full rounded-full transition-all duration-700" style="width: 27%;"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between md:justify-end gap-6 font-mono text-left">
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">اعتبار مانده</span>
+                <span class="text-sm font-bold text-white">۱۸ روز کامل</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[11px] text-on-surface-variant">پایان چرخه</span>
+                <span class="text-xs text-on-surface-variant">2024-12-05</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connection snippet -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div class="relative flex-1 bg-surface-container-lowest rounded-xl p-2.5 flex items-center overflow-hidden border border-white/5">
+              <span class="font-mono text-xs text-on-surface-variant truncate px-2 select-all text-left w-full" dir="ltr" id="config-nl">vless://77f94bc32-15f9-4b47-b82b-100234a980ff@nl-ams.pandanet.live:443?encryption=none&security=tls&type=grpc&serviceName=ams-stream#Panda-NL-Stream</span>
+            </div>
+            <div class="flex items-center gap-2 justify-end">
+              <button onclick="copyToClipboard(document.getElementById('config-nl').innerText, this)" class="px-4 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary-fixed text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                <span>کپی لینک اتصال</span>
+              </button>
+              <button onclick="openQrModal('کانفیگ هلند آمستردام (gRPC Stream)', document.getElementById('config-nl').innerText)" class="px-3.5 py-2 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-white text-xs font-mono flex items-center gap-1.5 transition-all border border-white/5">
+                <span class="material-symbols-outlined text-[16px]">qr_code_2</span>
+                <span>بارکد QR</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CARD 4: FRANCE NODE (EXPIRED) -->
+        <div class="server-card group p-6 rounded-2xl bg-surface-container-lowest border border-error/30 shadow-md flex flex-col gap-5 opacity-90 transition-all hover:opacity-100 relative overflow-hidden" data-status="expired">
+          <div class="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-transparent via-error to-transparent"></div>
+
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center font-mono font-bold text-base text-on-surface-variant grayscale border border-white/5">
+                FR
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="text-base md:text-lg font-bold text-white line-through decoration-error/70">فرانسه پاریس | OVH Cloud Ultra</h3>
+                  <span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-mono text-xs">Shadowsocks-2022</span>
+                  <span class="px-2 py-0.5 rounded bg-error-container/40 text-error font-mono text-xs flex items-center gap-1 border border-error/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                    منقضی شده (قطع موقت)
+                  </span>
+                </div>
+                <div class="flex items-center gap-3 text-on-surface-variant text-xs font-mono mt-1">
+                  <span>شناسه: #PND-FR-1088</span>
+                  <span>•</span>
+                  <span>ترافیک مصرفی: ۵۰ GB از ۵۰ GB سقف دوره</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 self-end lg:self-auto">
+              <a href="checkout.html" class="px-4 py-2 rounded-xl bg-gradient-to-r from-primary-container to-secondary-container hover:brightness-110 text-on-primary-container font-bold text-xs transition-all shadow-lg flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[18px]">autorenew</span>
+                <span>تمدید فوری با ۲۰٪ تخفیف وفاداری</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Warning Callout Box -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-4 rounded-xl bg-surface-container-low border border-error/20">
+            <div class="flex items-center gap-3">
+              <span class="material-symbols-outlined text-error text-[24px]">warning</span>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-white">اعتبار این سرویس در تاریخ ۱۴۰۳/۰۸/۲۴ به اتمام رسیده است.</span>
+                <span class="text-xs text-on-surface-variant mt-0.5">آدرس IP اختصاصی و کلیدهای رمزنگاری تا ۴۸ ساعت آینده برای شما رزرو نگه داشته می‌شود.</span>
+              </div>
+            </div>
+            <span class="px-3 py-1 rounded-lg bg-error-container text-error font-mono text-xs font-bold shrink-0">
+              مهلت رزرو: ۲۱:۱۴:۰۵
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- QUICK CLIENT CONNECTION TUTORIAL BENTO -->
+      <div class="flex flex-col gap-4 mt-6">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-fixed text-[24px]">terminal</span>
+            <h2 class="text-lg md:text-xl font-bold text-white">راهنمای اتصال سریع به کلاینت‌ها</h2>
+          </div>
+          <a href="contact.html" class="text-xs text-primary-fixed hover:underline flex items-center gap-1 font-mono">
+            <span>آموزش‌های تصویری کامل</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Client 1 -->
+          <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between gap-4 hover:border-primary-container/30 transition-all">
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white text-base">اندروید (Android)</span>
+                <span class="px-2 py-0.5 rounded bg-surface-container text-primary-fixed font-mono text-xs">v2rayNG</span>
+              </div>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                لینک کانفیگ را کپی کرده، در نرم‌افزار علامت + را بزنید و گزینه Import config from Clipboard را انتخاب کنید.
+              </p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-white/5">
+              <span class="text-xs font-mono text-primary-fixed">پشتیبانی از Reality & VLESS</span>
+              <a href="https://github.com/2dust/v2rayNG/releases" target="_blank" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-white transition-colors" title="دانلود از گیتهاب">
+                <span class="material-symbols-outlined text-[18px]">download</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Client 2 -->
+          <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between gap-4 hover:border-secondary-container/30 transition-all">
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white text-base">آیفون و آیپد (iOS)</span>
+                <span class="px-2 py-0.5 rounded bg-surface-container text-secondary-container font-mono text-xs">Streisand / V2Box</span>
+              </div>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                با استفاده از دکمه اسکن QR در نرم‌افزار، بارکد کانفیگ نود مورد نظر را مستقیماً از روی پنل اسکن و متصل شوید.
+              </p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-white/5">
+              <span class="text-xs font-mono text-secondary">دانلود مستقیم از App Store</span>
+              <a href="https://apps.apple.com" target="_blank" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-white transition-colors" title="دانلود از اپ‌استور">
+                <span class="material-symbols-outlined text-[18px]">open_in_new</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Client 3 -->
+          <div class="p-5 rounded-2xl bg-surface-container-low border border-white/5 flex flex-col justify-between gap-4 hover:border-primary-container/30 transition-all">
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white text-base">ویندوز (Windows)</span>
+                <span class="px-2 py-0.5 rounded bg-surface-container text-primary font-mono text-xs">Nekoray / v2rayN</span>
+              </div>
+              <p class="text-xs text-on-surface-variant leading-relaxed">
+                لینک Sub URL را در بخش Groups نرم‌افزار وارد کنید تا تمام سرورها به شکل خودکار آپدیت و پینگ‌گیری شوند.
+              </p>
+            </div>
+            <div class="flex items-center justify-between pt-2 border-t border-white/5">
+              <span class="text-xs font-mono text-primary-fixed">دارای حالت Tun Mode گیمینگ</span>
+              <a href="https://github.com/MatsuriDayo/nekoray/releases" target="_blank" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-white transition-colors" title="دانلود نسخه ویندوز">
+                <span class="material-symbols-outlined text-[18px]">download</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CART SLIDE-IN DRAWER -->
+  <div id="cartBackdrop" onclick="closeCartDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <div id="cartDrawer" class="fixed top-0 bottom-0 left-0 w-full max-w-md bg-surface-container-lowest border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col justify-between shadow-2xl">
+    <div class="p-5 border-b border-white/5 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-fixed">shopping_cart</span>
+        <h3 class="font-bold text-white text-base">سبد خرید شما</h3>
+      </div>
+      <button onclick="closeCartDrawer()" class="p-1 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-white">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+    <div class="p-5 flex-1 overflow-y-auto space-y-3" id="cartItemsList"></div>
+    <div class="p-5 border-t border-white/5 bg-surface-container-low/50 space-y-4">
+      <div class="flex items-center justify-between text-sm">
+        <span class="text-on-surface-variant">مبلغ کل قابل پرداخت:</span>
+        <span class="text-lg font-bold font-mono text-primary-fixed" id="cartDrawerTotal">۰ تومان</span>
+      </div>
+      <div class="flex flex-col gap-2">
+        <a href="checkout.html" class="w-full py-3 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container font-bold text-sm text-center shadow-lg transition-all">
+          ادامه و ثبت فاکتور (کارت به کارت)
+        </a>
+        <button onclick="checkoutCartViaTelegram()" class="w-full py-2.5 rounded-xl bg-[#0088cc]/20 hover:bg-[#0088cc]/30 text-[#00daf3] text-xs font-mono flex items-center justify-center gap-1.5 border border-[#0088cc]/30 transition-all">
+          <span class="material-symbols-outlined text-[16px]">send</span>
+          <span>ثبت سفارش و ارسال به تلگرام</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-surface-container-lowest border-t border-white/5 py-12">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-8 flex flex-col gap-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-on-surface-variant font-mono">
+        <span>© ۲۰۲۴ پاندا مارکت. تمام حقوق پروتکل‌ها و زیرساخت‌ها محفوظ است.</span>
+        <div class="flex items-center gap-4">
+          <span>زبان رابط: فارسی (FA)</span>
+          <span class="text-primary-fixed">PANDA-CORE v4.19.8-PROD</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAVIGATION -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0b0e14]/95 backdrop-blur-xl border-t border-white/10 px-4 py-2">
+    <nav class="flex items-center justify-around">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">home</span>
+        <span>خانه</span>
+      </a>
+      <a href="products.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">storefront</span>
+        <span>فروشگاه</span>
+      </a>
+      <a href="servers.html" class="flex flex-col items-center gap-1 text-primary-fixed text-xs font-bold">
+        <span class="material-symbols-outlined text-[20px]">dns</span>
+        <span>سرورها</span>
+      </a>
+      <a href="checkout.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+        <span>فاکتور</span>
+      </a>
+      <a href="contact.html" class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-white text-xs">
+        <span class="material-symbols-outlined text-[20px]">support_agent</span>
+        <span>پشتیبانی</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+  <script>
+    function filterServers(filter, btn) {
+      const buttons = document.querySelectorAll('.server-filter-btn');
+      buttons.forEach(b => {
+        b.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+        b.classList.add('bg-surface-container', 'text-on-surface-variant');
+      });
+      btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+      btn.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+
+      const cards = document.querySelectorAll('.server-card');
+      cards.forEach(card => {
+        const status = card.getAttribute('data-status');
+        const isExpiring = card.getAttribute('data-expiring');
+
+        if (filter === 'all') {
+          card.style.display = 'flex';
+        } else if (filter === 'active' && status === 'active') {
+          card.style.display = 'flex';
+        } else if (filter === 'expired' && status === 'expired') {
+          card.style.display = 'flex';
+        } else if (filter === 'expiring' && isExpiring === 'true') {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function searchServers(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll('.server-card');
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        if (text.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function refreshNodeTelemetry(btn) {
+      const icon = document.getElementById('syncIcon');
+      if (icon) icon.classList.add('animate-spin');
+      showToast('در حال سنجش پکت‌ها و بروزرسانی نودهای شبکه...');
+      setTimeout(() => {
+        if (icon) icon.classList.remove('animate-spin');
+        showToast('تمام کلاسترها و سرورها با موفقیت بروزرسانی شدند.');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
